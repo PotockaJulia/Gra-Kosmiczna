@@ -73,8 +73,8 @@ public class GameFrame extends JFrame {
 		GameFrame gameScreen = new GameFrame();
 		gameScreen.setVisible(true);
 	}
-	/*public void showGameFrame() {
+	public void showGameFrame() {
 		GameFrame gameScreen = new GameFrame();
 		gameScreen.setVisible(true);
-	}*/
+	}
 }
