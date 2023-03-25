@@ -34,6 +34,24 @@ public class StartFrame extends JFrame {
 		infoPanel.setBackground(Color.black);
 		helloPanel.add(infoPanel, BorderLayout.PAGE_END);
 		JButton infoButton = new JButton("Informacje");
+		ActionListener infoListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(null, 
+						"1. Wybierz pojazd\n"
+						+ "2. Uruchom grę poprzez klikniecie przycisku START\n"
+						+ "3. Gra:\n"
+						+ "  Sterowanie pojazdem przy pomocy strzałek prawo lewo\n"
+						+ "  Zderzenie z planetą lub meteorytem powoduje utratę życia\n"
+						+ "  Złapanie baniaka z paliwem zwiększa poziom paliwa\n"
+						+ "4. Gra kończy się po utracie 3 żyć, przy braku paliwa bądz przy opuszczenu Układu Słonecznego\n"
+						+ "5. Zapisz swój wynik\n"
+						+ "6. Zagraj ponownie lub zamknij grę.", 
+						"Informacje", JOptionPane.INFORMATION_MESSAGE, null);
+				
+			}	
+		};
+		infoButton.addActionListener(infoListener);
 		infoButton.setBackground(Color.cyan);
 		infoPanel.add(infoButton);
 		
