@@ -30,9 +30,9 @@ public class GameFrame extends JFrame {
 		JPanel scorePanel = new JPanel();
 		JLabel scoreL = new JLabel("wynik: "+score);
 		scorePanel.add(scoreL);
-		JPanel fuel = new JPanel();
-		JLabel fuelL = new JLabel("paliwo");
-		fuel.add(fuelL);
+		JPanel fuel = new FuelPanel();
+		//JLabel fuelL = new JLabel("paliwo");
+		//fuel.add(fuelL);
 		
 		informationsPanel.setLayout(new BorderLayout());
 		informationsPanel.setBackground(Color.gray);
