@@ -12,11 +12,22 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 public class WinFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
+	static WinFrame winScreen = new WinFrame();
+	
 	public WinFrame() throws HeadlessException {
+		JMenuBar menuBar = new JMenuBar();
+		JMenu optionMenu = new JMenu("Opcje");
+		JMenuItem saveScore = new JMenuItem("Zapisz wynik");
+		optionMenu.add(saveScore);
+		menuBar.add(optionMenu);
+		
 		JPanel winPanel = new JPanel();
 		winPanel.setBackground(Color.black);
 		winPanel.setLayout(new GridLayout(4,1));
@@ -25,7 +36,7 @@ public class WinFrame extends JFrame {
 		youWin.setFont(new Font("Serif", Font.PLAIN, 72));
 		youWin.setForeground(Color.white);
 		
-		JLabel yourScore = new JLabel("WYNIK: ", JLabel.CENTER);
+		JLabel yourScore = new JLabel("WYNIK: "+GameFrame.score, JLabel.CENTER);
 		yourScore.setFont(new Font("Serif", Font.PLAIN, 24));
 		yourScore.setForeground(Color.white);
 		
@@ -36,6 +47,7 @@ public class WinFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				GameFrame gameScreen = new GameFrame();
 				gameScreen.setVisible(true);
+				winScreen.setVisible(false);
 			}	
 		};
 		playAgainButton.addActionListener(playAgainListener);
@@ -66,9 +78,9 @@ public class WinFrame extends JFrame {
 		winPanel.add(playAgainPanel);
 		winPanel.add(exitGamePanel);
 		
+		this.setJMenuBar(menuBar);
 		
 		this.setSize(640, 480);
-		//this.setLayout(new BorderLayout());
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
     }
@@ -83,7 +95,6 @@ public class WinFrame extends JFrame {
     }
 
 	public static void main(String[] args) {
-		WinFrame winScreen = new WinFrame();
 		winScreen.setVisible(true);
 	}
 }
