@@ -7,32 +7,48 @@ import java.awt.Font;
 import java.awt.GraphicsConfiguration;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 
 public class StartFrame extends JFrame {
+	
 	private static final long serialVersionUID = 1L;
-	public StartFrame() throws HeadlessException {
 
+	static StartFrame startScreen = new StartFrame();
+	
+	public StartFrame() throws HeadlessException {
+		
+		this.setSize(640, 470);
+		this.setLayout(new GridLayout(3,1));
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+		
+		 
 		JPanel helloPanel = new JPanel();
 		helloPanel.setBackground(Color.black);
-		add(helloPanel);//, BorderLayout.CENTER);
+		add(helloPanel, BorderLayout.CENTER);
 		helloPanel.setLayout(new BorderLayout());
+		
 		JLabel hello = new JLabel("Space Adventure", JLabel.CENTER);
 		hello.setFont(new Font("Serif", Font.PLAIN, 72));
 		hello.setForeground(Color.white);
 		helloPanel.add(hello, BorderLayout.CENTER);
+		
 		JPanel infoPanel = new JPanel();
 		infoPanel.setBackground(Color.black);
 		helloPanel.add(infoPanel, BorderLayout.PAGE_END);
+		
 		JButton infoButton = new JButton("Informacje");
 		ActionListener infoListener = new ActionListener() {
 			@Override
@@ -44,7 +60,7 @@ public class StartFrame extends JFrame {
 						+ "  Sterowanie pojazdem przy pomocy strzałek prawo lewo\n"
 						+ "  Zderzenie z planetą lub meteorytem powoduje utratę życia\n"
 						+ "  Złapanie baniaka z paliwem zwiększa poziom paliwa\n"
-						+ "4. Gra kończy się po utracie 3 żyć, przy braku paliwa bądz przy opuszczenu Układu Słonecznego\n"
+						+ "4. Gra kończy się po utracie 3 żyć, przy braku paliwa, bądz przy opuszczenu Układu Słonecznego\n"
 						+ "5. Zapisz swój wynik\n"
 						+ "6. Zagraj ponownie lub zamknij grę.", 
 						"Informacje", JOptionPane.INFORMATION_MESSAGE, null);
@@ -52,37 +68,95 @@ public class StartFrame extends JFrame {
 			}	
 		};
 		infoButton.addActionListener(infoListener);
-		infoButton.setBackground(Color.cyan);
+		infoButton.setBackground(Color.blue);
 		infoPanel.add(infoButton);
+		
 		
 		JPanel vehiclePanel = new JPanel();
 		add(vehiclePanel);
-		vehiclePanel.setLayout(new GridLayout(3,1));
+		vehiclePanel.setLayout(new GridLayout(2,1));
 		
+	
 		JPanel vehiclePanel1 = new JPanel();
-		JPanel vehiclePanel2 = new JPanel();
-		JPanel vehiclePanel3 = new JPanel();
 		vehiclePanel1.setBackground(Color.black);
-		vehiclePanel2.setBackground(Color.black);
-		vehiclePanel3.setBackground(Color.black);
+		//vehiclePanel1.setLayout(null);
+		//vehiclePanel1.setBounds(0, 0, 640, 80);
 		vehiclePanel.add(vehiclePanel1);
-		vehiclePanel.add(vehiclePanel2);
-		vehiclePanel.add(vehiclePanel3);
 		
 		JLabel chooseVehicle = new JLabel("Wybierz pojazd: ", JLabel.CENTER);
 		chooseVehicle.setForeground(Color.white);
+		
+		vehiclePanel1.add(chooseVehicle);
+		
+		
+		JPanel vehiclePanel2 = new JPanel();
+		vehiclePanel2.setBackground(Color.black);
+		vehiclePanel.add(vehiclePanel2);
+	
+
+		ImageIcon choosePlaneIcon = new ImageIcon("samolot.png."); // load the image to a imageIcon
+		Image imgPlane = choosePlaneIcon.getImage(); // transform it 
+		Image newimgPlane = imgPlane.getScaledInstance(70, 70, Image.SCALE_SMOOTH); // scale it the smooth way  
+		choosePlaneIcon = new ImageIcon(newimgPlane);  // transform it back  
+		  
+		ImageIcon chooseUfoIcon = new ImageIcon("ufo.png."); // load the image to a imageIcon
+		Image imgUfo = chooseUfoIcon.getImage(); // transform it 
+		Image newimgUfo = imgUfo.getScaledInstance(70, 70, Image.SCALE_SMOOTH); // scale it the smooth way  
+		chooseUfoIcon = new ImageIcon(newimgUfo);  // transform it back  
+		  
+		ImageIcon chooseRocketIcon = new ImageIcon("rakieta.png."); // load the image to a imageIcon
+		Image imgRocket = chooseRocketIcon.getImage(); // transform it 
+		Image newimgRocket = imgRocket.getScaledInstance(70, 70, Image.SCALE_SMOOTH); // scale it the smooth way  
+		chooseRocketIcon = new ImageIcon(newimgRocket);  // transform it back  
+			
+
 		JRadioButton choosePlane = new JRadioButton("Samolot");
+		ActionListener planeListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				VehicleLabel.whatVehicle = 1;
+			}	
+		};
+		choosePlane.addActionListener(planeListener);
+		choosePlane.setBackground(Color.black);
+		choosePlane.setOpaque(true);
 		JRadioButton chooseUfo = new JRadioButton("Ufo");
-		JRadioButton chooseRocket = new JRadioButton("Rakieta");//new ImageIcon("rocket.png"));
+		ActionListener ufoListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				VehicleLabel.whatVehicle = 2;
+			}	
+		};
+		chooseUfo.addActionListener(ufoListener);
+		chooseUfo.setBackground(Color.black);
+		chooseUfo.setOpaque(true);
+		JRadioButton chooseRocket = new JRadioButton("Rakieta");
+		ActionListener rocketListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				VehicleLabel.whatVehicle = 3;
+			}	
+		};
+		chooseRocket.addActionListener(rocketListener);
+		chooseRocket.setBackground(Color.black);
+		chooseRocket.setOpaque(true);
+		
+		
 		ButtonGroup chooseYourFighter = new ButtonGroup();
 		chooseYourFighter.add(choosePlane);
 		chooseYourFighter.add(chooseUfo);
 		chooseYourFighter.add(chooseRocket);
 		
-		vehiclePanel1.add(chooseVehicle);
-		vehiclePanel3.add(choosePlane);
-		vehiclePanel3.add(chooseUfo);
-		vehiclePanel3.add(chooseRocket);
+		
+		choosePlane.setIcon(choosePlaneIcon);
+		chooseUfo.setIcon(chooseUfoIcon);;
+		chooseRocket.setIcon(chooseRocketIcon);
+		
+		
+		vehiclePanel2.add(choosePlane);
+		vehiclePanel2.add(chooseUfo);
+		vehiclePanel2.add(chooseRocket);
+		
 		
 		JPanel startPanel = new JPanel();
 		add(startPanel);
@@ -93,20 +167,19 @@ public class StartFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				GameFrame gameScreen = new GameFrame();
 				gameScreen.setVisible(true);
+				startScreen.setVisible(false);
 			}	
 		};
 		
 		startButton.addActionListener(startListener);
-		startButton.setBackground(Color.blue);
+		startButton.setBackground(Color.red);
 		startButton.setForeground(Color.white);
 		startButton.setPreferredSize(new Dimension(120, 60));
 		//infoButton.addActionListener(infoListener);
 		
 		startPanel.add(startButton);
 		//startPanel.add(infoButton);
-		this.setSize(640, 480);
-		this.setLayout(new GridLayout(3,1));
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
 		
     }
     public StartFrame(GraphicsConfiguration gc) {
@@ -120,7 +193,6 @@ public class StartFrame extends JFrame {
     }
 
 	public static void main(String[] args) {
-		StartFrame startScreen = new StartFrame();
 		startScreen.setVisible(true);
 	}
 
