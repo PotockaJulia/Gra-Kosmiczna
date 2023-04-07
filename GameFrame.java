@@ -23,13 +23,14 @@ public class GameFrame extends JFrame {
 	File ufo = new File("ufo.png");
 	File rocket = new File("rakieta.png");
 	public static int whatVehicle = 1;
+	public static int score=0;
 	//BufferedImage planeB;
 	//BufferedImage ufoB;
 	//BufferedImage rocketB;
 	private BufferedImage vehicleImage;
 	
 	public GameFrame() throws HeadlessException {
-		int score=0;
+		
 
 		JPanel informationsPanel = new JPanel();
 		add(informationsPanel, BorderLayout.PAGE_START);
