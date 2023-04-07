@@ -20,13 +20,14 @@ public class LivePanel extends JPanel {
  	public LivePanel() {
  		super();
  		//this.setLayout(new GridLayout(1,3));
- 		int howMany = 1;
+ 		int howMany = 3;
  		
  		if(howMany == 3) {
 	 		File imageFile1 = new File("3zycia.png");
 	 		try {
 	 			image = ImageIO.read(imageFile1);
-	 		} catch (IOException e) {
+	 		} 
+	 		catch (IOException e) {
 	 			System.err.println("Blad odczytu obrazka");
 	 			e.printStackTrace();
 	 		}
@@ -35,7 +36,8 @@ public class LivePanel extends JPanel {
  			File imageFile1 = new File("2zycia.png");
 	 		try {
 	 			image = ImageIO.read(imageFile1);
-	 		} catch (IOException e) {
+	 		} 
+	 		catch (IOException e) {
 	 			System.err.println("Blad odczytu obrazka");
 	 			e.printStackTrace();
 	 		}
@@ -44,7 +46,8 @@ public class LivePanel extends JPanel {
  			File imageFile1 = new File("1zycie.png");
 	 		try {
 	 			image = ImageIO.read(imageFile1);
-	 		} catch (IOException e) {
+	 		} 
+	 		catch (IOException e) {
 	 			System.err.println("Blad odczytu obrazka");
 	 			e.printStackTrace();
 	 		}
@@ -72,5 +75,3 @@ public class LivePanel extends JPanel {
 
 
 }
-
-
