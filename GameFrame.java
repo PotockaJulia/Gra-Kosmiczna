@@ -1,5 +1,7 @@
 package game;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,13 +11,16 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
-public class GameFrame extends JFrame {
+public class GameFrame extends JFrame implements Runnable {
 	private static final long serialVersionUID = 1L;
 	Image img = Toolkit.getDefaultToolkit().getImage("tlo.jpg");
 	File downpanel = new File("tlo.jpg");
@@ -23,21 +28,22 @@ public class GameFrame extends JFrame {
 	File ufo = new File("ufo.png");
 	File rocket = new File("rakieta.png");
 	public static int whatVehicle = 1;
-	public static int score=0;
+	//public static int score=0;
 	//BufferedImage planeB;
 	//BufferedImage ufoB;
 	//BufferedImage rocketB;
-	private BufferedImage vehicleImage;
+	//private BufferedImage vehicleImage;
+	static ScoreLabel scoreL;
 	
 	public GameFrame() throws HeadlessException {
-		
 
 		JPanel informationsPanel = new JPanel();
 		add(informationsPanel, BorderLayout.PAGE_START);
 		JPanel lives = new LivePanel();
 		JPanel scorePanel = new JPanel();
-		JLabel scoreL = new JLabel("wynik: "+score);
+		scoreL = new ScoreLabel();
 		scorePanel.add(scoreL);
+		//add(scorePanel);
 		JPanel fuel = new FuelPanel();
 		
 		informationsPanel.setLayout(new BorderLayout());
@@ -48,48 +54,8 @@ public class GameFrame extends JFrame {
 		
 		JPanel heavenPanel = new GamePanel();
 		add(heavenPanel);
-
-		
-		/*if(whatVehicle == 1) {
-	 		try {
-	 			vehicleImage = ImageIO.read(plane);
-	 		} 
-	 		catch (IOException e) {
-	 			System.err.println("Blad odczytu obrazka");
-	 			e.printStackTrace();
-	 		}
- 		}
- 		else if(whatVehicle == 2) {
-	 		try {
-	 			vehicleImage = ImageIO.read(ufo);
-	 		} 
-	 		catch (IOException e) {
-	 			System.err.println("Blad odczytu obrazka");
-	 			e.printStackTrace();
-	 		}
- 		}
- 		else if(whatVehicle == 3) {// || StartFrame.whatVehicle == 0) {
-	 		try {
-	 			vehicleImage = ImageIO.read(rocket);
-	 		} 
-	 		catch (IOException e) {
-	 			System.err.println("Blad odczytu obrazka");
-	 			e.printStackTrace();
-	 		}
- 		}
- 		else {
- 			System.out.println("Błąd wyboru pojazdu!");//zmienic na okno dialogowe błędu
- 		}*/
 		
 		JPanel vehiclePanel = new GamePanel();
-//		JLabel vehicleLabel = new JLabel() {
-//			private static final long serialVersionUID = 1L;
-//			@Override
-//			protected void paintComponent(Graphics g) {
-//				Graphics2D g2d = (Graphics2D) g;
-//		 		g2d.drawImage(vehicleImage, 0, 0, this);
-//			}
-//		};
 		JLabel vehicleLabel = new VehicleLabel();
 		vehiclePanel.add(vehicleLabel);
 		vehiclePanel.setPreferredSize(new Dimension(640, 80));
@@ -111,10 +77,52 @@ public class GameFrame extends JFrame {
     public GameFrame(String title, GraphicsConfiguration gc) {
         super(title, gc);
     }
+    
+    @Override
+	public void run() {
+		// TODO Auto-generated method stub
+		/*while (true) {
+			score+=1;
+
+			//setBackground(color[i]);
+
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}*/
+	}
+    
 
 	public static void main(String[] args) {
 		GameFrame gameScreen = new GameFrame();
 		gameScreen.setVisible(true);
+		
+		//GameFrame r1=new ();    
+        //Thread t1 =new Thread(gameScreen);    
+        // this will call run() method   
+        //t1.run();    
+		/*final ScheduledExecutorService scheduler = 
+			       Executors.newScheduledThreadPool(2);
+			scheduler.schedule(new Runnable() {
+	         @Override
+				public void run() { 
+	         //System.out.println("Koniec programu po 20 sekundach"); 
+	         scheduler.shutdownNow();
+	         //System.exit(0);
+	         gameScreen.setVisible(false);
+	         WinFrame winFrame = new WinFrame();
+	         winFrame.setVisible(true);
+	         }
+		}, 300, SECONDS);*/
+		
+		ExecutorService exec = Executors.newFixedThreadPool(3);
+
+		exec.execute(scoreL);
+
+		exec.shutdown();
 	}
+	
 	
 }
