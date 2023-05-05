@@ -18,10 +18,9 @@ public class VehicleLabel extends JLabel{
 	private static final long serialVersionUID = 1L;
 	
 	private BufferedImage image;
-	private BufferedImage backImage;
 	private Image smallImage;
 	private int lx = 260;
-	private int dx = 0;
+	
 
 	File plane = new File("samolot.png.");
 	File ufo = new File("ufo.png.");
@@ -31,15 +30,6 @@ public class VehicleLabel extends JLabel{
 
 	public VehicleLabel() {
 		super();
-		
-		File backGround = new File("tlo.jpg");
-	 	try {
-			backImage = ImageIO.read(backGround);
-	 	} 
-	 	catch (IOException e) {
-			System.err.println("Blad odczytu obrazka");
-	 		e.printStackTrace();
-	 	}
 	 	
 		if(whatVehicle == 1) {
 	 		try {
@@ -74,6 +64,9 @@ public class VehicleLabel extends JLabel{
 		smallImage = image.getScaledInstance(80,  80, Image.SCALE_SMOOTH);
 		Dimension dimension1 = new Dimension(80, 80);
  		setPreferredSize(dimension1);
+ 		
+ 		setBackground(new Color(0,0,0,65));//prawie transparentne
+ 		
  		addKeyListener(new MovingAdapter());
  		setFocusable(true);
 	}
@@ -107,7 +100,6 @@ public class VehicleLabel extends JLabel{
 	
 	public void paintComponent(Graphics g2) {
 		Graphics2D g2d = (Graphics2D) g2;
-		g2d.drawImage(backImage, 0, 0, this);
  		g2d.drawImage(smallImage, lx, 0, this);
 	}
 }
