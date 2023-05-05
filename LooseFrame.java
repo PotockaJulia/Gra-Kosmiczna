@@ -37,7 +37,7 @@ public class LooseFrame extends JFrame {
 		youWin.setFont(new Font("Serif", Font.PLAIN, 72));
 		youWin.setForeground(Color.white);
 		
-		JLabel yourScore = new JLabel("WYNIK: "+GameFrame.score, JLabel.CENTER);
+		JLabel yourScore = new JLabel("WYNIK: "+GameFrame.scoreL.getText(), JLabel.CENTER);
 		yourScore.setFont(new Font("Serif", Font.PLAIN, 24));
 		yourScore.setForeground(Color.white);
 		
