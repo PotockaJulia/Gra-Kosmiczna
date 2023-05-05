@@ -10,6 +10,8 @@ import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -167,6 +169,9 @@ public class StartFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				GameFrame gameScreen = new GameFrame();
 				gameScreen.setVisible(true);
+				ExecutorService exec = Executors.newFixedThreadPool(3);
+				exec.execute(gameScreen.scoreL);
+				exec.shutdown();
 				startScreen.setVisible(false);
 			}	
 		};
@@ -197,3 +202,4 @@ public class StartFrame extends JFrame {
 	}
 
 }
+
