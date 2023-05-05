@@ -55,14 +55,8 @@ public class GameFrame extends JFrame implements Runnable {
 		JPanel heavenPanel = new GamePanel();
 		add(heavenPanel);
 		
-		JPanel vehiclePanel = new GamePanel();
 		JLabel vehicleLabel = new VehicleLabel();
-		vehiclePanel.add(vehicleLabel);
-		vehiclePanel.setPreferredSize(new Dimension(640, 80));
-		
-		//JLabel label = new JLabel("pojazd");
-		//vehiclePanel.add(label);
-		add(vehiclePanel, BorderLayout.PAGE_END);
+		add(vehicleLabel, BorderLayout.PAGE_END);
 		
 		this.setSize(640, 480);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
