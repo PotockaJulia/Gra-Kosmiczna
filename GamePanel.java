@@ -23,13 +23,14 @@ public class GamePanel extends JPanel implements Runnable {
 	private BufferedImage backImage;
 	private BufferedImage meteoritImage, meteoritImage2;
 	int xPos1, yPos1, xPos2, yPos2, vx1, vy1, vx2, vy2;
+	final int xPos10 = 640;
+	int yPos10 = 20;
+	final int xPos20 = -20;
+	int yPos20 = 16;
 	
 	boolean isWorking = true;
-	private BufferedImage image;
-	//private BufferedImage backImage;
-	private Image smallImage;
-	private int lx = 260;
-	
+	//private int lx = 260;
+	static boolean kom1 = false;
 
 	File plane = new File("samolot.png.");
 	File ufo = new File("ufo.png.");
@@ -68,15 +69,18 @@ public class GamePanel extends JPanel implements Runnable {
 	 	
 	 	Random r = new Random();
 	 	
-	 	xPos1 = 620;
-	 	xPos2 = -20;
-		yPos1 = r.nextInt(30);
-		yPos2 = r.nextInt(30);
+	 	
+	 	xPos1 = xPos10;
+	 	//yPos10 = r.nextInt(20);
+	 	yPos1 = yPos10;
+		xPos2 = xPos20;
+		//yPos20 = r.nextInt(20);
+		yPos2 = yPos20;
 		//int tmp = r.nextInt();
-		vx1 = -(5+r.nextInt(2));
-		vy1 = -(3+r.nextInt(2));
-		vx2 = (5+r.nextInt(2));
-		vy2 = (3+r.nextInt(2));
+		vx1 = -(5+r.nextInt(3));
+		vy1 = (5+r.nextInt(3));
+		vx2 = (5+r.nextInt(3));
+		vy2 = (5+r.nextInt(3));
 		
 		setLayout(new BorderLayout());
 		VehicleLabel vehicleLabel = new VehicleLabel();
@@ -90,9 +94,10 @@ public class GamePanel extends JPanel implements Runnable {
  		g2d.drawImage(backImage, 0, 0, this);
  		//g2d.drawImage(smallImage, lx, 320, this);
  		
- 		//if(ScoreLabel.score == 40) {
+ 		//if(kom1 == true) {
 			g2d.drawImage(meteoritImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH), xPos1, yPos1, this);
 			g2d.drawImage(meteoritImage2.getScaledInstance(50, 50, Image.SCALE_SMOOTH), xPos2, yPos2, this);
+			//System.out.println(ScoreLabel.score);
  		//}
  	}
 
@@ -100,16 +105,32 @@ public class GamePanel extends JPanel implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		while (isWorking) {
-			xPos1+=vx1;
-			yPos1-=vy1;
-			xPos2+=vx2;
-			yPos2+=vx2;
-			repaint();
+			Random r = new Random();
+
+				xPos1+=vx1;
+				yPos1+=vy1;
+				xPos2+=vx2;
+				yPos2+=vx2;
+				repaint();
+				
+				try {
+					Thread.sleep(40);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			if(xPos1 <= -1100 || yPos1 >= 1600) {
+				xPos1 = xPos10;
+				yPos1 = r.nextInt(20);
+				vx1 = -(5+r.nextInt(3));
+				vy1 = (5+r.nextInt(3));
+				
+			}
+			else if(xPos2 >= 2200 || yPos2 >= 2700) {
+				xPos2 = xPos20;
+				yPos2 = r.nextInt(20);
+				vx2 = (5+r.nextInt(3));
+				vy2 = (5+r.nextInt(3));
 			}
 			
 		}
