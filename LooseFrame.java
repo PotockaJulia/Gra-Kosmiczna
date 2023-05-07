@@ -48,6 +48,10 @@ public class LooseFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				GameFrame gameScreen = new GameFrame();
 				gameScreen.setVisible(true);
+				ExecutorService exec = Executors.newFixedThreadPool(3);
+				exec.execute(GameFrame.scoreL);
+				exec.execute(GameFrame.heavenPanel);
+				exec.shutdown();
 				looseScreen.setVisible(false);
 			}	
 		};
