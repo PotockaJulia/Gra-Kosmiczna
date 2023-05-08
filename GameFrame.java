@@ -28,12 +28,11 @@ public class GameFrame extends JFrame implements Runnable {
 	File ufo = new File("ufo.png");
 	File rocket = new File("rakieta.png");
 	public static int whatVehicle = 1;
-	//public static int score=0;
-	//BufferedImage planeB;
-	//BufferedImage ufoB;
-	//BufferedImage rocketB;
-	//private BufferedImage vehicleImage;
 	static ScoreLabel scoreL;
+	static GameFrame gameScreen; 
+	static GamePanel heavenPanel;
+	static FuelPanel fuel;
+	
 	
 	public GameFrame() throws HeadlessException {
 
@@ -44,7 +43,7 @@ public class GameFrame extends JFrame implements Runnable {
 		scoreL = new ScoreLabel();
 		scorePanel.add(scoreL);
 		//add(scorePanel);
-		JPanel fuel = new FuelPanel();
+		fuel = new FuelPanel();
 		
 		informationsPanel.setLayout(new BorderLayout());
 		informationsPanel.setBackground(Color.gray);
@@ -52,13 +51,14 @@ public class GameFrame extends JFrame implements Runnable {
 		informationsPanel.add(scorePanel, BorderLayout.CENTER);
 		informationsPanel.add(fuel, BorderLayout.LINE_END);
 		
-		JPanel heavenPanel = new GamePanel();
+		heavenPanel = new GamePanel();
 		add(heavenPanel);
+		
 		
 		this.setSize(640, 480);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
     }
+	
     public GameFrame(GraphicsConfiguration gc) {
         super(gc);
     }
@@ -71,24 +71,18 @@ public class GameFrame extends JFrame implements Runnable {
     
     @Override
 	public void run() {
-		// TODO Auto-generated method stub
-		/*while (true) {
-			score+=1;
 
-			//setBackground(color[i]);
-
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}*/
 	}
     
 
 	public static void main(String[] args) {
-		GameFrame gameScreen = new GameFrame();
+		gameScreen = new GameFrame();
 		gameScreen.setVisible(true);
+		if(ScoreLabel.score == 4344) {
+			gameScreen.setVisible(false);
+			WinFrame winScreen = new WinFrame();
+			winScreen.setVisible(true);
+		}
 		
 		//GameFrame r1=new ();    
         //Thread t1 =new Thread(gameScreen);    
@@ -106,14 +100,19 @@ public class GameFrame extends JFrame implements Runnable {
 	         WinFrame winFrame = new WinFrame();
 	         winFrame.setVisible(true);
 	         }
-		}, 300, SECONDS);*/
+		}, 284, SECONDS);*/
 		
 		ExecutorService exec = Executors.newFixedThreadPool(3);
 
 		exec.execute(scoreL);
+		exec.execute(heavenPanel);
+		exec.execute(fuel);
 
 		exec.shutdown();
+		
+		
 	}
 	
 	
 }
+
