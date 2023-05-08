@@ -171,6 +171,8 @@ public class StartFrame extends JFrame {
 				gameScreen.setVisible(true);
 				ExecutorService exec = Executors.newFixedThreadPool(3);
 				exec.execute(gameScreen.scoreL);
+				exec.execute(GameFrame.heavenPanel);
+				exec.execute(GameFrame.fuel);
 				exec.shutdown();
 				startScreen.setVisible(false);
 			}	
