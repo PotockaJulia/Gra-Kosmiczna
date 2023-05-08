@@ -51,6 +51,7 @@ public class LooseFrame extends JFrame {
 				ExecutorService exec = Executors.newFixedThreadPool(3);
 				exec.execute(GameFrame.scoreL);
 				exec.execute(GameFrame.heavenPanel);
+				exec.execute(GameFrame.fuel);
 				exec.shutdown();
 				looseScreen.setVisible(false);
 			}	
