@@ -50,6 +50,7 @@ public class WinFrame extends JFrame {
 				ExecutorService exec = Executors.newFixedThreadPool(3);
 				exec.execute(GameFrame.scoreL);
 				exec.execute(GameFrame.heavenPanel);
+				exec.execute(GameFrame.fuel);
 				exec.shutdown();
 				winScreen.setVisible(false);
 			}	
