@@ -6,9 +6,13 @@ import java.awt.Font;
 import java.awt.GraphicsConfiguration;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,12 +40,12 @@ public class WinFrame extends JFrame {
 		youWin.setFont(new Font("Serif", Font.PLAIN, 72));
 		youWin.setForeground(Color.white);
 		
-		JLabel yourScore = new JLabel("WYNIK: "+GameFrame.scoreL.getText(), JLabel.CENTER);
+		JLabel yourScore = new JLabel("WYNIK: "+GameFrame.scoreL, JLabel.CENTER);
 		yourScore.setFont(new Font("Serif", Font.PLAIN, 24));
 		yourScore.setForeground(Color.white);
 		
 		JPanel playAgainPanel = new JPanel();
-		JButton playAgainButton = new JButton("ZAGRAJ PONOWNIE");
+		JButton playAgainButton = new JButton();
 		ActionListener playAgainListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -49,21 +53,25 @@ public class WinFrame extends JFrame {
 				gameScreen.setVisible(true);
 				ExecutorService exec = Executors.newFixedThreadPool(3);
 				exec.execute(GameFrame.scoreL);
-				exec.execute(GameFrame.heavenPanel);
 				exec.execute(GameFrame.fuel);
+				exec.execute(GameFrame.heavenPanel);
 				exec.shutdown();
 				winScreen.setVisible(false);
 			}	
 		};
 		playAgainButton.addActionListener(playAgainListener);
-		playAgainButton.setBackground(Color.blue);
+		ImageIcon playAgainIcon = new ImageIcon("playAgain.png.");
+		Image imgPlayAgain = playAgainIcon.getImage();
+		Image newimgPlayAgain = imgPlayAgain.getScaledInstance(300, 100, Image.SCALE_SMOOTH);
+		playAgainIcon = new ImageIcon(newimgPlayAgain);  
+		playAgainButton.setIcon(playAgainIcon);
 		playAgainButton.setForeground(Color.white);
-		playAgainButton.setPreferredSize(new Dimension(180, 60));
+		playAgainButton.setPreferredSize(new Dimension(300,100));
 		playAgainPanel.add(playAgainButton);
 		playAgainPanel.setBackground(Color.black);
 
 		JPanel exitGamePanel = new JPanel();
-		JButton exitGameButton = new JButton("ZAKONCZ");
+		JButton exitGameButton = new JButton();
 		playAgainPanel.add(playAgainButton);
 		ActionListener exitGameListener = new ActionListener() {
 			@Override
@@ -73,8 +81,13 @@ public class WinFrame extends JFrame {
 		};
 		exitGameButton.addActionListener(exitGameListener);
 		exitGameButton.setBackground(Color.red);
+		ImageIcon exitIcon = new ImageIcon("exit.png.");
+		Image imgExit = exitIcon.getImage();
+		Image newimgExit = imgExit.getScaledInstance(200, 60, Image.SCALE_SMOOTH);
+		exitIcon = new ImageIcon(newimgExit);  
+		exitGameButton.setIcon(exitIcon);
 		exitGameButton.setForeground(Color.white);
-		exitGameButton.setPreferredSize(new Dimension(120, 40));
+		exitGameButton.setPreferredSize(new Dimension(200,60));
 		exitGamePanel.add(exitGameButton);
 		exitGamePanel.setBackground(Color.black);
 		
@@ -85,8 +98,12 @@ public class WinFrame extends JFrame {
 		
 		this.setJMenuBar(menuBar);
 		
+		ImageIcon logoI = new ImageIcon("ufo.png.");
+		Image logo = logoI.getImage(); 
+		this.setIconImage(logo);
+		
 		this.setSize(640, 480);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
     }
     public WinFrame(GraphicsConfiguration gc) {
