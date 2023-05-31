@@ -15,6 +15,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -54,9 +55,12 @@ public class GameFrame extends JFrame implements Runnable {
 		heavenPanel = new GamePanel();
 		add(heavenPanel);
 		
+		ImageIcon logoI = new ImageIcon("ufo.png.");
+		Image logo = logoI.getImage(); 
+		this.setIconImage(logo);
 		
-		this.setSize(640, 480);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setSize(640, 520);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 	
     public GameFrame(GraphicsConfiguration gc) {
@@ -115,4 +119,3 @@ public class GameFrame extends JFrame implements Runnable {
 	
 	
 }
-
