@@ -1,10 +1,13 @@
 package game;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -13,9 +16,11 @@ import java.io.IOException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import game.VehicleLabel.MovingAdapter;
 
 public class GamePanel extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1L;
@@ -40,6 +45,7 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	public GamePanel() {
  		super();
+ 		setLayout(new BorderLayout());
  		
 	 	File imageFile1 = new File("tlo.jpg");
 	 	try {
@@ -82,7 +88,60 @@ public class GamePanel extends JPanel implements Runnable {
 		vx2 = (5+r.nextInt(3));
 		vy2 = (5+r.nextInt(3));
 		
-		setLayout(new BorderLayout());
+		
+		JPanel gapPanel = new JPanel();
+		gapPanel.setOpaque(false);
+		gapPanel.setLayout(new BorderLayout());
+		
+		JPanel infoPanel = new JPanel();
+		infoPanel.setOpaque(false);
+		JButton infoButton = new JButton();
+		ActionListener infoListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//zatrzymanie czasu i wyswietlenie panelu z opcja wznow
+				//ta sama funkcjonalnosc przy wcisnieciu przycisku esc!!!
+			}	
+		};
+		infoButton.addActionListener(infoListener);
+		ImageIcon infoIcon = new ImageIcon("stop.png"); // load the image to a imageIcon
+		Image imgInfo = infoIcon.getImage(); // transform it 
+		Image newimgInfo = imgInfo.getScaledInstance(40, 40, Image.SCALE_SMOOTH); // scale it the smooth way  
+		infoIcon = new ImageIcon(newimgInfo);  // transform it back  
+		infoButton.setIcon(infoIcon);
+		infoButton.setPreferredSize(new Dimension(40,40));
+		//infoButton.setOpaque(false);
+		infoButton.setBackground(Color.black);
+		
+		MusicPanel musicPanel = new MusicPanel();
+		JButton musicButton = new JButton();		
+		ActionListener musicListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JFrame musicFrame = new JFrame();
+				musicFrame.add(musicPanel);
+				musicFrame.setBackground(Color.black);
+				musicFrame.setSize(400, 250);
+				musicFrame.setVisible(true);
+			}	
+		};
+		musicButton.addActionListener(musicListener);
+		
+		ImageIcon musicIcon = new ImageIcon("music.png");
+		Image imgMusic = musicIcon.getImage(); // transform it 
+		Image newimgMusic = imgMusic.getScaledInstance(40, 40, Image.SCALE_SMOOTH); // scale it the smooth way  
+		musicIcon = new ImageIcon(newimgMusic);  // transform it back  
+		musicButton.setIcon(musicIcon);
+		musicButton.setPreferredSize(new Dimension(40,40));
+		musicButton.setBackground(Color.black);
+		
+		infoPanel.add(musicButton);
+		infoPanel.add(infoButton);
+		gapPanel.add(infoPanel, BorderLayout.LINE_END);
+		add(gapPanel, BorderLayout.PAGE_START);
+		
+		//add(infoPanel, BorderLayout.PAGE_START);
+		
 		VehicleLabel vehicleLabel = new VehicleLabel();
 		add(vehicleLabel, BorderLayout.PAGE_END);
  	}
