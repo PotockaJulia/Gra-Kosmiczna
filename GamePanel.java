@@ -20,7 +20,7 @@ import game.VehicleLabel.MovingAdapter;
 public class GamePanel extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1L;
 	
-	private BufferedImage backImage;
+	private BufferedImage backgroundImage;
 	private BufferedImage meteoritImage, meteoritImage2;
 	int xPos1, yPos1, xPos2, yPos2, vx1, vy1, vx2, vy2;
 	final int xPos10 = 640;
@@ -43,7 +43,7 @@ public class GamePanel extends JPanel implements Runnable {
  		
 	 	File imageFile1 = new File("tlo.jpg");
 	 	try {
-			backImage = ImageIO.read(imageFile1);
+	 		backgroundImage = ImageIO.read(imageFile1);
 	 	} 
 	 	catch (IOException e) {
 			System.err.println("Blad odczytu obrazka");
@@ -85,20 +85,17 @@ public class GamePanel extends JPanel implements Runnable {
 		setLayout(new BorderLayout());
 		VehicleLabel vehicleLabel = new VehicleLabel();
 		add(vehicleLabel, BorderLayout.PAGE_END);
-		
  	}
 	
  
  	public void paintComponent(Graphics g) {
  		Graphics2D g2d = (Graphics2D) g;
- 		g2d.drawImage(backImage, 0, 0, this);
- 		//g2d.drawImage(smallImage, lx, 320, this);
- 		
- 		//if(kom1 == true) {
-			g2d.drawImage(meteoritImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH), xPos1, yPos1, this);
-			g2d.drawImage(meteoritImage2.getScaledInstance(50, 50, Image.SCALE_SMOOTH), xPos2, yPos2, this);
-			//System.out.println(ScoreLabel.score);
- 		//}
+ 		//g2d.drawImage(backImage, 0, 0, this);
+ 		g2d.drawImage(backgroundImage, 0, 0, this);
+
+		g2d.drawImage(meteoritImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH), xPos1, yPos1, this);
+		g2d.drawImage(meteoritImage2.getScaledInstance(50, 50, Image.SCALE_SMOOTH), xPos2, yPos2, this);
+
  	}
 
 	@Override
