@@ -124,7 +124,12 @@ public class StartFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				//przerobic!!!
-				JOptionPane.showMessageDialog(null, musicPanel, "Muzyka", JOptionPane.INFORMATION_MESSAGE, null);
+				JFrame musicFrame = new JFrame();
+				musicFrame.add(musicPanel);
+				musicFrame.setBackground(Color.black);
+				musicFrame.setSize(400, 250);
+				musicFrame.setVisible(true);
+				//JOptionPane.showMessageDialog(null, musicPanel, "Muzyka", JOptionPane.INFORMATION_MESSAGE, null);
 			}	
 		};
 		musicButton.addActionListener(musicListener);
@@ -154,9 +159,7 @@ public class StartFrame extends JFrame {
 		mainPanel.add(vehiclePanel);
 		
 		JPanel vehiclePanel1 = new JPanel();
-		vehiclePanel1.setOpaque(false);//.setBackground(Color.black);
-		
-		//vehiclePanel1.setLayout(null);
+		vehiclePanel1.setOpaque(false);
 		vehiclePanel1.setPreferredSize(new Dimension(640, 30));
 		vehiclePanel.add(vehiclePanel1, BorderLayout.PAGE_START);
 		
@@ -255,8 +258,6 @@ public class StartFrame extends JFrame {
 		Image newimgStart = imgStart.getScaledInstance(250, 100, Image.SCALE_SMOOTH); // scale it the smooth way  
 		startIcon = new ImageIcon(newimgStart);  // transform it back  
 		startButton.setIcon(startIcon);
-		//startButton.setBackground(Color.blue);
-		//startButton.setForeground(Color.white);
 		startButton.setPreferredSize(new Dimension(248, 98));
 		startPanel.add(startButton);
 
