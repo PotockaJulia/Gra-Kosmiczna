@@ -87,11 +87,11 @@ public class VehicleLabel extends JLabel{
 			int key = e.getKeyCode();
 			
 			if (key == KeyEvent.VK_LEFT && lx > 2) { 
-				lx-=2;
+				lx-=3;
 				repaint();
 			}
 			if (key == KeyEvent.VK_RIGHT && lx < (640-80-2)) { 
-				lx+=2;
+				lx+=3;
 				repaint();
 			}
 		}
