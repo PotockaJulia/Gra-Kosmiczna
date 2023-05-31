@@ -4,23 +4,22 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 
 public class StartFrame extends JFrame {
@@ -29,29 +28,70 @@ public class StartFrame extends JFrame {
 
 	static StartFrame startScreen = new StartFrame();
 	
+	static Music music = new Music(true);
+	JPanel helloPanel;
+	StartPanel startPanel;
+	
+	String startOrStop;
+	//private BufferedImage backImage;
+	
 	public StartFrame() throws HeadlessException {
 		
-		this.setSize(640, 470);
-		this.setLayout(new GridLayout(3,1));
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setSize(640, 520);
+		//this.setLayout(new GridLayout(3,1));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		JMenuBar menuBar = new JMenuBar();
+		JMenu musicMenu = new JMenu("MUSIC");
+		JMenuItem stopAudio = new JMenuItem("STOP");
+		stopAudio.addActionListener(e->{
+			try {
+				music.stop();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		JMenuItem playAudio = new JMenuItem("PLAY");
+		playAudio.addActionListener(e->{
+			try {
+				music.play();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		JMenu volume = new JMenu("VOLUME");
+		JSlider sliderVolume = new JSlider(JSlider.HORIZONTAL, 0, 5, 3);
+		sliderVolume.setMajorTickSpacing(1);
+		sliderVolume.setMinorTickSpacing(1);
+	//	sliderVolume.addChangeListener(e->music.setVolume(sliderVolume.getVolume()));
+	//	sliderVolume.setPaintTicks(true);
+	//	sliderVolume.setPaintLabels(true);
+	//	sliderVolume.add
+		volume.add(sliderVolume);
+		musicMenu.add(stopAudio);
+		musicMenu.add(playAudio);
+		musicMenu.add(volume);
+		menuBar.add(musicMenu);
+		this.setJMenuBar(menuBar);
 		
-		 
-		JPanel helloPanel = new JPanel();
-		helloPanel.setBackground(Color.black);
-		add(helloPanel, BorderLayout.CENTER);
-		helloPanel.setLayout(new BorderLayout());
+		//Image logo = new ImageIcon(this.getClass().getResource("ufo.png")).getImage();
+		ImageIcon logoI = new ImageIcon("ufo.png.");
+		Image logo = logoI.getImage(); 
+		this.setIconImage(logo);
 		
-		JLabel hello = new JLabel("Space Adventure", JLabel.CENTER);
-		hello.setFont(new Font("Serif", Font.PLAIN, 72));
-		hello.setForeground(Color.white);
-		helloPanel.add(hello, BorderLayout.CENTER);
+		startPanel = new StartPanel();
+		startPanel.setLayout(new GridLayout(2,1));
+		add(startPanel);
+		
+		JPanel gapPanel = new JPanel();
+		gapPanel.setOpaque(false);
+		gapPanel.setLayout(new BorderLayout());
 		
 		JPanel infoPanel = new JPanel();
-		infoPanel.setBackground(Color.black);
-		helloPanel.add(infoPanel, BorderLayout.PAGE_END);
-		
-		JButton infoButton = new JButton("Informacje");
+		infoPanel.setOpaque(false);
+		JButton infoButton = new JButton();
 		ActionListener infoListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -66,35 +106,69 @@ public class StartFrame extends JFrame {
 						+ "5. Zapisz swój wynik\n"
 						+ "6. Zagraj ponownie lub zamknij grę.", 
 						"Informacje", JOptionPane.INFORMATION_MESSAGE, null);
-				
 			}	
 		};
 		infoButton.addActionListener(infoListener);
-		infoButton.setBackground(Color.blue);
+		ImageIcon infoIcon = new ImageIcon("info.png"); // load the image to a imageIcon
+		Image imgInfo = infoIcon.getImage(); // transform it 
+		Image newimgInfo = imgInfo.getScaledInstance(40, 40, Image.SCALE_SMOOTH); // scale it the smooth way  
+		infoIcon = new ImageIcon(newimgInfo);  // transform it back  
+		infoButton.setIcon(infoIcon);
+		infoButton.setPreferredSize(new Dimension(40,40));
+		//infoButton.setOpaque(false);
+		infoButton.setBackground(Color.black);
+		
+		MusicPanel musicPanel = new MusicPanel();
+		JButton musicButton = new JButton();		
+		ActionListener musicListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//przerobic!!!
+				JOptionPane.showMessageDialog(null, musicPanel, "Muzyka", JOptionPane.INFORMATION_MESSAGE, null);
+			}	
+		};
+		musicButton.addActionListener(musicListener);
+		
+		ImageIcon musicIcon = new ImageIcon("music.png");
+		Image imgMusic = musicIcon.getImage(); // transform it 
+		Image newimgMusic = imgMusic.getScaledInstance(40, 40, Image.SCALE_SMOOTH); // scale it the smooth way  
+		musicIcon = new ImageIcon(newimgMusic);  // transform it back  
+		musicButton.setIcon(musicIcon);
+		musicButton.setPreferredSize(new Dimension(40,40));
+		musicButton.setBackground(Color.black);
+		
+		infoPanel.add(musicButton);
 		infoPanel.add(infoButton);
 		
+		gapPanel.add(infoPanel, BorderLayout.LINE_END);
+		startPanel.add(gapPanel);
+		
+		JPanel mainPanel = new JPanel();
+		mainPanel.setOpaque(false);
+		mainPanel.setLayout(new GridLayout(2,1));
+		startPanel.add(mainPanel);
 		
 		JPanel vehiclePanel = new JPanel();
-		add(vehiclePanel);
-		vehiclePanel.setLayout(new GridLayout(2,1));
+		vehiclePanel.setOpaque(false);
+		vehiclePanel.setLayout(new BorderLayout());
+		mainPanel.add(vehiclePanel);
 		
-	
 		JPanel vehiclePanel1 = new JPanel();
-		vehiclePanel1.setBackground(Color.black);
+		vehiclePanel1.setOpaque(false);//.setBackground(Color.black);
+		
 		//vehiclePanel1.setLayout(null);
-		//vehiclePanel1.setBounds(0, 0, 640, 80);
-		vehiclePanel.add(vehiclePanel1);
+		vehiclePanel1.setPreferredSize(new Dimension(640, 30));
+		vehiclePanel.add(vehiclePanel1, BorderLayout.PAGE_START);
 		
 		JLabel chooseVehicle = new JLabel("Wybierz pojazd: ", JLabel.CENTER);
 		chooseVehicle.setForeground(Color.white);
-		
+		chooseVehicle.setPreferredSize(new Dimension(640, 30));
 		vehiclePanel1.add(chooseVehicle);
 		
-		
 		JPanel vehiclePanel2 = new JPanel();
-		vehiclePanel2.setBackground(Color.black);
-		vehiclePanel.add(vehiclePanel2);
-	
+		vehiclePanel2.setOpaque(false);//.setBackground(new Color(0,0,0,65));
+		vehiclePanel.add(vehiclePanel2);//, BorderLayout.CENTER);
+		//vehiclePanel2.setPreferredSize(new Dimension(640, 60));
 
 		ImageIcon choosePlaneIcon = new ImageIcon("samolot.png."); // load the image to a imageIcon
 		Image imgPlane = choosePlaneIcon.getImage(); // transform it 
@@ -111,8 +185,8 @@ public class StartFrame extends JFrame {
 		Image newimgRocket = imgRocket.getScaledInstance(70, 70, Image.SCALE_SMOOTH); // scale it the smooth way  
 		chooseRocketIcon = new ImageIcon(newimgRocket);  // transform it back  
 			
-
 		JRadioButton choosePlane = new JRadioButton("Samolot");
+		choosePlane.setForeground(Color.white);
 		ActionListener planeListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -120,9 +194,10 @@ public class StartFrame extends JFrame {
 			}	
 		};
 		choosePlane.addActionListener(planeListener);
-		choosePlane.setBackground(Color.black);
-		choosePlane.setOpaque(true);
+		choosePlane.setOpaque(false);//.setBackground(new Color(0,0,0,65));
+		//choosePlane.setOpaque(true);
 		JRadioButton chooseUfo = new JRadioButton("Ufo");
+		chooseUfo.setForeground(Color.white);
 		ActionListener ufoListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -130,9 +205,10 @@ public class StartFrame extends JFrame {
 			}	
 		};
 		chooseUfo.addActionListener(ufoListener);
-		chooseUfo.setBackground(Color.black);
-		chooseUfo.setOpaque(true);
+		//chooseUfo.setBackground(new Color(0,0,0,65));
+		chooseUfo.setOpaque(false);
 		JRadioButton chooseRocket = new JRadioButton("Rakieta");
+		chooseRocket.setForeground(Color.white);
 		ActionListener rocketListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -140,55 +216,53 @@ public class StartFrame extends JFrame {
 			}	
 		};
 		chooseRocket.addActionListener(rocketListener);
-		chooseRocket.setBackground(Color.black);
-		chooseRocket.setOpaque(true);
-		
+		//chooseRocket.setBackground(new Color(0,0,0,65));
+		chooseRocket.setOpaque(false);
 		
 		ButtonGroup chooseYourFighter = new ButtonGroup();
 		chooseYourFighter.add(choosePlane);
 		chooseYourFighter.add(chooseUfo);
 		chooseYourFighter.add(chooseRocket);
 		
-		
 		choosePlane.setIcon(choosePlaneIcon);
 		chooseUfo.setIcon(chooseUfoIcon);;
 		chooseRocket.setIcon(chooseRocketIcon);
-		
 		
 		vehiclePanel2.add(choosePlane);
 		vehiclePanel2.add(chooseUfo);
 		vehiclePanel2.add(chooseRocket);
 		
-		
 		JPanel startPanel = new JPanel();
-		add(startPanel);
-		startPanel.setBackground(Color.black);
-		JButton startButton = new JButton("START");
+		mainPanel.add(startPanel);
+		startPanel.setOpaque(false);
+		JButton startButton = new JButton();
 		ActionListener startListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				GameFrame gameScreen = new GameFrame();
 				gameScreen.setVisible(true);
 				ExecutorService exec = Executors.newFixedThreadPool(3);
-				exec.execute(gameScreen.scoreL);
+				exec.execute(GameFrame.scoreL);
 				exec.execute(GameFrame.heavenPanel);
 				exec.execute(GameFrame.fuel);
 				exec.shutdown();
 				startScreen.setVisible(false);
 			}	
 		};
-		
 		startButton.addActionListener(startListener);
-		startButton.setBackground(Color.red);
-		startButton.setForeground(Color.white);
-		startButton.setPreferredSize(new Dimension(120, 60));
-		//infoButton.addActionListener(infoListener);
-		
+		ImageIcon startIcon = new ImageIcon("start.png."); // load the image to a imageIcon
+		Image imgStart = startIcon.getImage(); // transform it 
+		Image newimgStart = imgStart.getScaledInstance(250, 100, Image.SCALE_SMOOTH); // scale it the smooth way  
+		startIcon = new ImageIcon(newimgStart);  // transform it back  
+		startButton.setIcon(startIcon);
+		//startButton.setBackground(Color.blue);
+		//startButton.setForeground(Color.white);
+		startButton.setPreferredSize(new Dimension(248, 98));
 		startPanel.add(startButton);
-		//startPanel.add(infoButton);
-		
-		
+
     }
+
+	
     public StartFrame(GraphicsConfiguration gc) {
         super(gc);
     }
@@ -201,7 +275,8 @@ public class StartFrame extends JFrame {
 
 	public static void main(String[] args) {
 		startScreen.setVisible(true);
+		String filepath = "muzyka.wav";
+		music.PlayMusic(filepath);
 	}
 
 }
-
