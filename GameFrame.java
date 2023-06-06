@@ -37,9 +37,12 @@ public class GameFrame extends JFrame implements Runnable {
 	
 	public GameFrame() throws HeadlessException {
 
+		setBackground(Color.black);
 		JPanel informationsPanel = new JPanel();
+		informationsPanel.setOpaque(false);
 		add(informationsPanel, BorderLayout.PAGE_START);
 		JPanel lives = new LivePanel();
+		lives.setOpaque(false);
 		JPanel scorePanel = new JPanel();
 		scoreL = new ScoreLabel();
 		scorePanel.add(scoreL);
@@ -87,24 +90,6 @@ public class GameFrame extends JFrame implements Runnable {
 			WinFrame winScreen = new WinFrame();
 			winScreen.setVisible(true);
 		}
-		
-		//GameFrame r1=new ();    
-        //Thread t1 =new Thread(gameScreen);    
-        // this will call run() method   
-        //t1.run();    
-		/*final ScheduledExecutorService scheduler = 
-			       Executors.newScheduledThreadPool(2);
-			scheduler.schedule(new Runnable() {
-	         @Override
-				public void run() { 
-	         //System.out.println("Koniec programu po 20 sekundach"); 
-	         scheduler.shutdownNow();
-	         //System.exit(0);
-	         gameScreen.setVisible(false);
-	         WinFrame winFrame = new WinFrame();
-	         winFrame.setVisible(true);
-	         }
-		}, 284, SECONDS);*/
 		
 		ExecutorService exec = Executors.newFixedThreadPool(3);
 
