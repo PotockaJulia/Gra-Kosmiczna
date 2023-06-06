@@ -1,13 +1,16 @@
 package game;
 
+import java.sql.Time;
+
 import javax.swing.JLabel;
 
 public class ScoreLabel extends JLabel implements Runnable {
 	private static final long serialVersionUID = 1L;
 
-	boolean isWorking = true;
-	int a = 97;
-
+	static boolean isWorkingL = true;
+	//int a = 97;
+	public static int score = 0;
+	
 	ScoreLabel() {
 		super();
 	}
@@ -15,24 +18,28 @@ public class ScoreLabel extends JLabel implements Runnable {
 	
 	@Override
 	public void run() {
-
-		while (isWorking) {
-			int t;
-			for (double i=0; i<=4344.146; i+=1) {
-			//int score = 0;
-				//double s = a*t*t/2;
-				String value = String.format("%.0f mln km", i);
-				setText(value);
-				if(i>=628.336) t=85;
-				else if(i>=2718.326) t=39;
-				else t=159;
-				try {
-					Thread.sleep(t);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+		//if(GamePanel.gameState == GamePanel.playState) {
+			while (isWorkingL) {
+				int t;
+				for (double i=0; i<4344; i+=1) {
+					String value = String.format("%d mln km", score);
+					setText(value);
+					if(GamePanel.gameState == GamePanel.playState) {
+						score++;
+						if(i>=628) t=78;//100s to trwa, od Jowisza
+						else if(i>=2718) t=36;//to 60s, od Uranu
+						else t=159;//trwa 100s, do Jowisza
+						
+						try {
+							Thread.sleep(t);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+					if (i==4344) isWorkingL = false;
 				}
-			//score++;
 			}
-		}
+		//}
+		
 	}
 }
