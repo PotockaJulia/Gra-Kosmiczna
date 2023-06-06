@@ -19,7 +19,7 @@ public class VehicleLabel extends JLabel{
 	
 	private BufferedImage image;
 	private Image smallImage;
-	private int lx = 260;
+	public static int lx = 260;
 	
 
 	File plane = new File("samolot.png.");
@@ -30,7 +30,7 @@ public class VehicleLabel extends JLabel{
 
 	public VehicleLabel() {
 		super();
-	 	
+
 		if(whatVehicle == 1) {
 	 		try {
 	 			image = ImageIO.read(plane);
@@ -66,9 +66,7 @@ public class VehicleLabel extends JLabel{
  		setPreferredSize(dimension1);
  		
  		setBackground(new Color(0,0,0,65));//prawie transparentne
- 		
- 		addKeyListener(new MovingAdapter());
- 		setFocusable(true);
+ 		//setBackground(Color.blue);
 	}
 	
 
@@ -78,24 +76,6 @@ public class VehicleLabel extends JLabel{
 
 	public void setLx(int x) {
 		this.lx = x;
-	}
-	
-	public class MovingAdapter extends KeyAdapter {
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			int key = e.getKeyCode();
-			
-			if (key == KeyEvent.VK_LEFT && lx > 2) { 
-				lx-=3;
-				repaint();
-			}
-			if (key == KeyEvent.VK_RIGHT && lx < (640-80-2)) { 
-				lx+=3;
-				repaint();
-			}
-		}
-			
 	}
 	
 	public void paintComponent(Graphics g2) {
