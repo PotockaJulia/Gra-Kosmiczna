@@ -22,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
+
 public class GamePanel extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1L;
 	
@@ -42,10 +43,20 @@ public class GamePanel extends JPanel implements Runnable {
 	File rocket = new File("rakieta.png.");
 	public static int whatVehicle = 1;
 	
+	static int gameState = 0;
+	static int pauseState = 1;
+	static int playState = 2;
+	JFrame stopFrame;
+	JButton resumeButton;
+	
 	
 	public GamePanel() {
  		super();
  		setLayout(new BorderLayout());
+ 		addKeyListener(new StopAdapter());
+ 		setFocusable(true);
+ 		
+ 		gameState = playState;
  		
 	 	File imageFile1 = new File("tlo.jpg");
 	 	try {
@@ -77,12 +88,9 @@ public class GamePanel extends JPanel implements Runnable {
 	 	
 	 	
 	 	xPos1 = xPos10;
-	 	//yPos10 = r.nextInt(20);
 	 	yPos1 = yPos10;
 		xPos2 = xPos20;
-		//yPos20 = r.nextInt(20);
 		yPos2 = yPos20;
-		//int tmp = r.nextInt();
 		vx1 = -(5+r.nextInt(3));
 		vy1 = (5+r.nextInt(3));
 		vx2 = (5+r.nextInt(3));
@@ -93,25 +101,44 @@ public class GamePanel extends JPanel implements Runnable {
 		gapPanel.setOpaque(false);
 		gapPanel.setLayout(new BorderLayout());
 		
+		
+		resumeButton = new JButton("Wznów");
+		resumeButton.setSize(200,80);
+		resumeButton.setBackground(Color.blue);
+		resumeButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				gameState = playState;
+				stopFrame.setVisible(false);
+			}
+		});
+		
 		JPanel infoPanel = new JPanel();
 		infoPanel.setOpaque(false);
-		JButton infoButton = new JButton();
-		ActionListener infoListener = new ActionListener() {
+		JButton stopButton = new JButton();
+		ActionListener stopListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				//zatrzymanie czasu i wyswietlenie panelu z opcja wznow
 				//ta sama funkcjonalnosc przy wcisnieciu przycisku esc!!!
+				gameState = pauseState;
+				stopFrame = new JFrame();
+				stopFrame.setBackground(Color.black);
+				stopFrame.add(resumeButton);
+				stopFrame.setSize(640, 520);
+				stopFrame.setVisible(true);
 			}	
 		};
-		infoButton.addActionListener(infoListener);
-		ImageIcon infoIcon = new ImageIcon("stop.png"); // load the image to a imageIcon
-		Image imgInfo = infoIcon.getImage(); // transform it 
-		Image newimgInfo = imgInfo.getScaledInstance(40, 40, Image.SCALE_SMOOTH); // scale it the smooth way  
-		infoIcon = new ImageIcon(newimgInfo);  // transform it back  
-		infoButton.setIcon(infoIcon);
-		infoButton.setPreferredSize(new Dimension(40,40));
+		stopButton.addActionListener(stopListener);
+		ImageIcon stopIcon = new ImageIcon("stop.png"); // load the image to a imageIcon
+		Image imgStop = stopIcon.getImage(); // transform it 
+		Image newimgStop = imgStop.getScaledInstance(40, 40, Image.SCALE_SMOOTH); // scale it the smooth way  
+		stopIcon = new ImageIcon(newimgStop);  // transform it back  
+		stopButton.setIcon(stopIcon);
+		stopButton.setPreferredSize(new Dimension(40,40));
 		//infoButton.setOpaque(false);
-		infoButton.setBackground(Color.black);
+		stopButton.setBackground(Color.black);
 		
 		MusicPanel musicPanel = new MusicPanel();
 		JButton musicButton = new JButton();		
@@ -136,7 +163,7 @@ public class GamePanel extends JPanel implements Runnable {
 		musicButton.setBackground(Color.black);
 		
 		infoPanel.add(musicButton);
-		infoPanel.add(infoButton);
+		infoPanel.add(stopButton);
 		gapPanel.add(infoPanel, BorderLayout.LINE_END);
 		add(gapPanel, BorderLayout.PAGE_START);
 		
@@ -157,12 +184,37 @@ public class GamePanel extends JPanel implements Runnable {
 
  	}
 
+ 	public class StopAdapter extends KeyAdapter {
+		@Override
+		public void keyPressed(KeyEvent e) {
+			int key = e.getKeyCode();
+			
+			if (key == KeyEvent.VK_ESCAPE) { 
+				gameState = pauseState;
+				stopFrame = new JFrame();
+				stopFrame.setBackground(Color.black);
+				stopFrame.add(resumeButton);
+				stopFrame.setSize(640, 520);
+				stopFrame.setVisible(true);
+			}
+			
+			if (key == KeyEvent.VK_LEFT && VehicleLabel.lx > 2) { 
+				VehicleLabel.lx-=3;
+				repaint();
+			}
+			if (key == KeyEvent.VK_RIGHT && VehicleLabel.lx < (640-80-2)) { 
+				VehicleLabel.lx+=3;
+				repaint();
+			}
+		}
+	}
+ 	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		while (isWorking) {
 			Random r = new Random();
-
+			if(gameState == playState) {
 				xPos1+=vx1;
 				yPos1+=vy1;
 				xPos2+=vx2;
@@ -174,7 +226,8 @@ public class GamePanel extends JPanel implements Runnable {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-			
+			}
+				
 			if(xPos1 <= -1100 || yPos1 >= 1600) {
 				xPos1 = xPos10;
 				yPos1 = r.nextInt(20);
