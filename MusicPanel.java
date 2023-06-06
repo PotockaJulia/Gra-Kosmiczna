@@ -78,7 +78,7 @@ public class MusicPanel extends JPanel{
 		JLabel volumeLabel = new JLabel("Głośność:");
 		volumeLabel.setForeground(Color.white);
 		
-		JSlider volumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 40);
+		JSlider volumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 80);
 		volumeSlider.setMajorTickSpacing(10);
 		volumeSlider.setPaintLabels(true);
 		volumeSlider.setForeground(Color.WHITE);
