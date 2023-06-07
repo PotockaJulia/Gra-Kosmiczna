@@ -1,24 +1,11 @@
 package game;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GridLayout;
-import java.awt.HeadlessException;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
@@ -31,6 +18,7 @@ public class StartFrame extends JFrame {
 	static Music music = new Music(true);
 	JPanel helloPanel;
 	StartPanel startPanel;
+	static GameFrame gameScreen;
 	
 	String startOrStop;
 	//private BufferedImage backImage;
@@ -38,43 +26,7 @@ public class StartFrame extends JFrame {
 	public StartFrame() throws HeadlessException {
 		
 		this.setSize(640, 520);
-		//this.setLayout(new GridLayout(3,1));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		JMenuBar menuBar = new JMenuBar();
-		JMenu musicMenu = new JMenu("MUSIC");
-		JMenuItem stopAudio = new JMenuItem("STOP");
-		stopAudio.addActionListener(e->{
-			try {
-				music.stop();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		});
-		JMenuItem playAudio = new JMenuItem("PLAY");
-		playAudio.addActionListener(e->{
-			try {
-				music.play();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		});
-		JMenu volume = new JMenu("VOLUME");
-		JSlider sliderVolume = new JSlider(JSlider.HORIZONTAL, 0, 5, 3);
-		sliderVolume.setMajorTickSpacing(1);
-		sliderVolume.setMinorTickSpacing(1);
-	//	sliderVolume.addChangeListener(e->music.setVolume(sliderVolume.getVolume()));
-	//	sliderVolume.setPaintTicks(true);
-	//	sliderVolume.setPaintLabels(true);
-	//	sliderVolume.add
-		volume.add(sliderVolume);
-		musicMenu.add(stopAudio);
-		musicMenu.add(playAudio);
-		musicMenu.add(volume);
-		menuBar.add(musicMenu);
-		this.setJMenuBar(menuBar);
 		
 		//Image logo = new ImageIcon(this.getClass().getResource("ufo.png")).getImage();
 		ImageIcon logoI = new ImageIcon("ufo.png.");
@@ -104,7 +56,9 @@ public class StartFrame extends JFrame {
 						+ "  Złapanie baniaka z paliwem zwiększa poziom paliwa\n"
 						+ "4. Gra kończy się po utracie 3 żyć, przy braku paliwa, bądz przy opuszczenu Układu Słonecznego\n"
 						+ "5. Zapisz swój wynik\n"
-						+ "6. Zagraj ponownie lub zamknij grę.", 
+						+ "6. Zagraj ponownie lub zamknij grę."
+						+ "PAUZA przycisk ESC/przycisk || w prawym górnym rogu ekranu"
+						+ "MUZYKA przycisk muzyki w prawym górnym rogu", 
 						"Informacje", JOptionPane.INFORMATION_MESSAGE, null);
 			}	
 		};
@@ -129,7 +83,6 @@ public class StartFrame extends JFrame {
 				musicFrame.setBackground(Color.black);
 				musicFrame.setSize(400, 250);
 				musicFrame.setVisible(true);
-				//JOptionPane.showMessageDialog(null, musicPanel, "Muzyka", JOptionPane.INFORMATION_MESSAGE, null);
 			}	
 		};
 		musicButton.addActionListener(musicListener);
@@ -242,7 +195,7 @@ public class StartFrame extends JFrame {
 		ActionListener startListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				GameFrame gameScreen = new GameFrame();
+				gameScreen = new GameFrame();
 				gameScreen.setVisible(true);
 				ExecutorService exec = Executors.newFixedThreadPool(3);
 				exec.execute(GameFrame.scoreL);
@@ -262,7 +215,14 @@ public class StartFrame extends JFrame {
 		startPanel.add(startButton);
 
     }
-
+	
+	public static void ifYouAlive() {
+ 		if (LivePanel.howMany == 0) {
+ 			gameScreen.setVisible(false);
+ 			LooseFrame looseScreen = new LooseFrame();
+ 			looseScreen.setVisible(true);
+ 		}
+ 	}
 	
     public StartFrame(GraphicsConfiguration gc) {
         super(gc);
