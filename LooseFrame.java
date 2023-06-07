@@ -41,7 +41,7 @@ public class LooseFrame extends JFrame {
 		youWin.setFont(new Font("Serif", Font.PLAIN, 72));
 		youWin.setForeground(Color.white);
 		
-		JLabel yourScore = new JLabel("WYNIK: "+GameFrame.scoreL, JLabel.CENTER);
+		JLabel yourScore = new JLabel("WYNIK: "+ScoreLabel.score, JLabel.CENTER);
 		yourScore.setFont(new Font("Serif", Font.PLAIN, 24));
 		yourScore.setForeground(Color.white);
 		
@@ -50,6 +50,9 @@ public class LooseFrame extends JFrame {
 		ActionListener playAgainListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				LivePanel.howMany = 3;
+				ScoreLabel.score = 0;
+				FuelPanel.counter = 500;
 				GameFrame gameScreen = new GameFrame();
 				gameScreen.setVisible(true);
 				ExecutorService exec = Executors.newFixedThreadPool(3);
