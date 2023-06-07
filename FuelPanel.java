@@ -13,6 +13,7 @@ public class FuelPanel extends JPanel implements Runnable {
 	//JLabel fuelLabel = new JLabel();
 	JProgressBar progressBar = new JProgressBar(0,500);
 	boolean isWorking = true;
+	static int counter =500;
 
 	FuelPanel(){
 		//Dimension dimension1 = new Dimension(fuelStatus,25);
@@ -31,11 +32,6 @@ public class FuelPanel extends JPanel implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		while (isWorking) {
-			//fuelStatus--;
-			//Dimension dimension1 = new Dimension(fuelStatus,25);
-			//setPreferredSize(dimension1);
-			//fuelLabel.setText("%d %");
-			int counter =500;
 			while (counter > 0) {
 				progressBar.setValue(counter);
 				counter--;
