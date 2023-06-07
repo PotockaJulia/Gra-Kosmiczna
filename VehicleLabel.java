@@ -1,12 +1,6 @@
 package game;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +20,7 @@ public class VehicleLabel extends JLabel{
 	File ufo = new File("ufo.png.");
 	File rocket = new File("rakieta.png.");
 	public static int whatVehicle = 1;
+	static Rectangle rveh;
 
 
 	public VehicleLabel() {
@@ -69,17 +64,10 @@ public class VehicleLabel extends JLabel{
  		//setBackground(Color.blue);
 	}
 	
-
-	public int getLx() {
-		return lx;
-	}
-
-	public void setLx(int x) {
-		this.lx = x;
-	}
-	
 	public void paintComponent(Graphics g2) {
 		Graphics2D g2d = (Graphics2D) g2;
  		g2d.drawImage(smallImage, lx, 0, this);
+ 		rveh = new Rectangle(lx, this.getY(), 80, 80);
+
 	}
 }
