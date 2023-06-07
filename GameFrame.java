@@ -1,23 +1,13 @@
 package game;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GraphicsConfiguration;
-import java.awt.HeadlessException;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
+import java.awt.*;
 import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -33,6 +23,7 @@ public class GameFrame extends JFrame implements Runnable {
 	static GameFrame gameScreen; 
 	static GamePanel heavenPanel;
 	static FuelPanel fuel;
+	static LivePanel lives; 
 	
 	
 	public GameFrame() throws HeadlessException {
@@ -41,7 +32,7 @@ public class GameFrame extends JFrame implements Runnable {
 		JPanel informationsPanel = new JPanel();
 		informationsPanel.setOpaque(false);
 		add(informationsPanel, BorderLayout.PAGE_START);
-		JPanel lives = new LivePanel();
+		lives = new LivePanel();
 		lives.setOpaque(false);
 		JPanel scorePanel = new JPanel();
 		scoreL = new ScoreLabel();
@@ -91,16 +82,13 @@ public class GameFrame extends JFrame implements Runnable {
 			winScreen.setVisible(true);
 		}
 		
-		ExecutorService exec = Executors.newFixedThreadPool(3);
+		ExecutorService exec = Executors.newFixedThreadPool(4);
 
 		exec.execute(scoreL);
 		exec.execute(heavenPanel);
 		exec.execute(fuel);
+		exec.execute(lives);
 
-		exec.shutdown();
-		
-		
+		exec.shutdown();	
 	}
-	
-	
 }
