@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -48,6 +47,9 @@ public class GamePanel extends JPanel implements Runnable {
 	JFrame stopFrame;
 	JButton resumeButton;
 	static JFrame pauseFrame;
+	MusicPanel musicPanel = new MusicPanel();
+	JFrame musicFrame = new JFrame();
+	
 	
 	
 	public GamePanel() {
@@ -107,39 +109,6 @@ public class GamePanel extends JPanel implements Runnable {
 		fyPos = -200;
 		fxPos =20+r.nextInt(600);
 		fvy = (3+r.nextInt(3));
-		
-		
-		JPanel gapPanel = new JPanel();
-		gapPanel.setOpaque(false);
-		gapPanel.setLayout(new BorderLayout());
-		
-		JPanel infoPanel = new JPanel();
-		infoPanel.setOpaque(false);
-		
-		MusicPanel musicPanel = new MusicPanel();
-		JButton musicButton = new JButton();		
-		ActionListener musicListener = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				JFrame musicFrame = new JFrame();
-				musicFrame.add(musicPanel);
-				musicFrame.setBackground(Color.black);
-				musicFrame.setSize(400, 250);
-				musicFrame.setVisible(true);
-			}	
-		};
-		musicButton.addActionListener(musicListener);
-		ImageIcon musicIcon = new ImageIcon("music.png");
-		Image imgMusic = musicIcon.getImage(); // transform it 
-		Image newimgMusic = imgMusic.getScaledInstance(40, 40, Image.SCALE_SMOOTH); // scale it the smooth way  
-		musicIcon = new ImageIcon(newimgMusic);  // transform it back  
-		musicButton.setIcon(musicIcon);
-		musicButton.setPreferredSize(new Dimension(40,40));
-		musicButton.setBackground(Color.black);
-		
-		infoPanel.add(musicButton);
-		gapPanel.add(infoPanel, BorderLayout.LINE_END);
-		add(gapPanel, BorderLayout.PAGE_START);
 		
 		VehicleLabel vehicleLabel = new VehicleLabel();
 		add(vehicleLabel, BorderLayout.PAGE_END);
@@ -213,12 +182,20 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 			
 			if (key == KeyEvent.VK_LEFT && VehicleLabel.lx > 2) { 
-				VehicleLabel.lx-=3;
+				VehicleLabel.lx-=4;
 				repaint();
 			}
-			if (key == KeyEvent.VK_RIGHT && VehicleLabel.lx < (640-80-2)) { 
-				VehicleLabel.lx+=3;
+			else if (key == KeyEvent.VK_RIGHT && VehicleLabel.lx < (640-80-2)) { 
+				VehicleLabel.lx+=4;
 				repaint();
+			}
+			if(key == KeyEvent.VK_M) {
+//				JFrame musicFrame = new JFrame();
+//				musicPanel = new MusicPanel();
+				musicFrame.add(musicPanel);
+				musicFrame.setBackground(Color.black);
+				musicFrame.setSize(400, 250);
+				musicFrame.setVisible(true);
 			}
 		}
 	}
