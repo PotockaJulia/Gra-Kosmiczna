@@ -10,7 +10,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class PausePanel extends JPanel {
@@ -57,25 +56,6 @@ public class PausePanel extends JPanel {
 		resumeButton.setPreferredSize(new Dimension(300,100));
 		resumeButton.setOpaque(false);
 		resumeButton.setBackground(Color.black);
-		
-//		JButton exitButton = new JButton();
-//		resumeButton.setBackground(Color.blue);
-//		resumeButton.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
-//				GamePanel.gameState = GamePanel.playState;
-//				setVisible(false);
-//			}
-//		});
-//		ImageIcon exitIcon = new ImageIcon("zakoncz.png"); // load the image to a imageIcon
-//		Image imgExit = resumeIcon.getImage(); // transform it 
-//		Image newimgExit = imgExit.getScaledInstance(100, 40, Image.SCALE_SMOOTH); // scale it the smooth way  
-//		exitIcon = new ImageIcon(newimgExit);  // transform it back  
-//		exitButton.setIcon(exitIcon);
-//		//exitButton.setPreferredSize(new Dimension(40,40));
-//		//infoButton.setOpaque(false);
-//		exitButton.setBackground(Color.black);
 		
 		buttonsPanel.add(resumeButton);
 	}
