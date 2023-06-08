@@ -21,6 +21,8 @@ public class StartFrame extends JFrame {
 	static GameFrame gameScreen;
 	static LooseFrame looseScreen;
 	static WinFrame winScreen;
+	JFrame musicFrame = new JFrame();
+	MusicPanel musicPanel = new MusicPanel();
 	
 	String startOrStop;
 	//private BufferedImage backImage;
@@ -60,7 +62,7 @@ public class StartFrame extends JFrame {
 						+ "4. Gra kończy się po utracie 3 żyć, przy braku paliwa, bądz przy opuszczenu Układu Słonecznego\n"
 						+ "5. Zapisz swój wynik\n"
 						+ "6. Zagraj ponownie lub zamknij grę."
-						+ "PAUZA przycisk ESC"
+						+ "PAUZA przycisk ESC/przycisk || w prawym górnym rogu ekranu"
 						+ "MUZYKA przycisk muzyki w prawym górnym rogu", 
 						"Informacje", JOptionPane.INFORMATION_MESSAGE, null);
 			}	
@@ -80,8 +82,8 @@ public class StartFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				//przerobic!!!
-				JFrame musicFrame = new JFrame();
-				MusicPanel musicPanel = new MusicPanel();
+//				JFrame musicFrame = new JFrame();
+//				MusicPanel musicPanel = new MusicPanel();
 				musicFrame.add(musicPanel);
 				musicFrame.setBackground(Color.black);
 				musicFrame.setSize(400, 250);
