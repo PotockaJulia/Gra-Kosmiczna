@@ -19,6 +19,8 @@ public class StartFrame extends JFrame {
 	JPanel helloPanel;
 	StartPanel startPanel;
 	static GameFrame gameScreen;
+	static LooseFrame looseScreen;
+	static WinFrame winScreen;
 	
 	String startOrStop;
 	//private BufferedImage backImage;
@@ -28,7 +30,7 @@ public class StartFrame extends JFrame {
 		this.setSize(640, 520);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		//Image logo = new ImageIcon(this.getClass().getResource("ufo.png")).getImage();
+		//ikonka gry
 		ImageIcon logoI = new ImageIcon("ufo.png.");
 		Image logo = logoI.getImage(); 
 		this.setIconImage(logo);
@@ -37,6 +39,7 @@ public class StartFrame extends JFrame {
 		startPanel.setLayout(new GridLayout(2,1));
 		add(startPanel);
 		
+		//panel górny z info i muzyka
 		JPanel gapPanel = new JPanel();
 		gapPanel.setOpaque(false);
 		gapPanel.setLayout(new BorderLayout());
@@ -57,7 +60,7 @@ public class StartFrame extends JFrame {
 						+ "4. Gra kończy się po utracie 3 żyć, przy braku paliwa, bądz przy opuszczenu Układu Słonecznego\n"
 						+ "5. Zapisz swój wynik\n"
 						+ "6. Zagraj ponownie lub zamknij grę."
-						+ "PAUZA przycisk ESC/przycisk || w prawym górnym rogu ekranu"
+						+ "PAUZA przycisk ESC"
 						+ "MUZYKA przycisk muzyki w prawym górnym rogu", 
 						"Informacje", JOptionPane.INFORMATION_MESSAGE, null);
 			}	
@@ -72,13 +75,13 @@ public class StartFrame extends JFrame {
 		//infoButton.setOpaque(false);
 		infoButton.setBackground(Color.black);
 		
-		MusicPanel musicPanel = new MusicPanel();
 		JButton musicButton = new JButton();		
 		ActionListener musicListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				//przerobic!!!
 				JFrame musicFrame = new JFrame();
+				MusicPanel musicPanel = new MusicPanel();
 				musicFrame.add(musicPanel);
 				musicFrame.setBackground(Color.black);
 				musicFrame.setSize(400, 250);
@@ -86,7 +89,6 @@ public class StartFrame extends JFrame {
 			}	
 		};
 		musicButton.addActionListener(musicListener);
-		
 		ImageIcon musicIcon = new ImageIcon("music.png");
 		Image imgMusic = musicIcon.getImage(); // transform it 
 		Image newimgMusic = imgMusic.getScaledInstance(40, 40, Image.SCALE_SMOOTH); // scale it the smooth way  
@@ -216,11 +218,23 @@ public class StartFrame extends JFrame {
 
     }
 	
-	public static void ifYouAlive() {
+	public static void ifGameOn() {
+		GamePanel.Collision();
+		
  		if (LivePanel.howMany == 0) {
  			gameScreen.setVisible(false);
- 			LooseFrame looseScreen = new LooseFrame();
+ 			looseScreen = new LooseFrame();
  			looseScreen.setVisible(true);
+ 		}
+ 		if (FuelPanel.counter == 0) {
+ 			gameScreen.setVisible(false);
+ 			looseScreen = new LooseFrame();
+ 			looseScreen.setVisible(true);
+ 		}
+ 		if (ScoreLabel.score >= 4344) {
+ 			gameScreen.setVisible(false);
+ 			winScreen = new WinFrame();
+ 			winScreen.setVisible(true);
  		}
  	}
 	
