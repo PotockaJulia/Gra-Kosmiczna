@@ -87,8 +87,7 @@ public class GameFrame extends JFrame implements Runnable {
 		exec.execute(scoreL);
 		exec.execute(heavenPanel);
 		exec.execute(fuel);
-		exec.execute(lives);
 
-		exec.shutdown();	
+		exec.shutdown();
 	}
 }
