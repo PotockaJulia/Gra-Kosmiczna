@@ -62,8 +62,8 @@ public class StartFrame extends JFrame {
 						+ "4. Gra kończy się po utracie 3 żyć, przy braku paliwa, bądz przy opuszczenu Układu Słonecznego\n"
 						+ "5. Zapisz swój wynik\n"
 						+ "6. Zagraj ponownie lub zamknij grę."
-						+ "PAUZA przycisk ESC/przycisk || w prawym górnym rogu ekranu"
-						+ "MUZYKA przycisk muzyki w prawym górnym rogu", 
+						+ "PAUZA przycisk ESC"
+						+ "MUZYKA przycisk M/przycisk muzyki w prawym górnym rogu", 
 						"Informacje", JOptionPane.INFORMATION_MESSAGE, null);
 			}	
 		};
