@@ -1,16 +1,17 @@
 package game;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GraphicsConfiguration;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,7 +24,9 @@ import javax.swing.JPanel;
 
 public class LooseFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-	static LooseFrame looseScreen = new LooseFrame();
+	private BufferedImage backgroundImage;
+	JPanel loosePanel;
+	//static LooseFrame looseScreen = new LooseFrame();
 	
 	public LooseFrame() throws HeadlessException {
 		JMenuBar menuBar = new JMenuBar();
@@ -33,19 +36,26 @@ public class LooseFrame extends JFrame {
 		menuBar.add(optionMenu);
 		
 		
-		JPanel winPanel = new JPanel();
-		winPanel.setBackground(Color.black);
-		winPanel.setLayout(new GridLayout(4,1));
-		add(winPanel);
-		JLabel youWin = new JLabel("PRZEGRANA!", JLabel.CENTER);
-		youWin.setFont(new Font("Serif", Font.PLAIN, 72));
-		youWin.setForeground(Color.white);
+		loosePanel = new LoosePanel();
+		loosePanel.setBackground(Color.black);
+		loosePanel.setLayout(new GridLayout(4,1));
+		add(loosePanel);
 		
+		JLabel youLoose = new JLabel();//"PRZEGRANA!", JLabel.CENTER);
+		youLoose.setFont(new Font("Serif", Font.PLAIN, 72));
+		youLoose.setForeground(Color.white);
+		
+		JPanel scorePanel = new JPanel();
+		scorePanel.setLayout(new BorderLayout());
+		scorePanel.setOpaque(false);
 		JLabel yourScore = new JLabel("WYNIK: "+ScoreLabel.score, JLabel.CENTER);
+		yourScore.setBounds(50, 50, yourScore.getWidth(), yourScore.getHeight());
 		yourScore.setFont(new Font("Serif", Font.PLAIN, 24));
 		yourScore.setForeground(Color.white);
+		scorePanel.add(yourScore, BorderLayout.PAGE_END);
 		
 		JPanel playAgainPanel = new JPanel();
+		playAgainPanel.setOpaque(false);
 		JButton playAgainButton = new JButton();
 		ActionListener playAgainListener = new ActionListener() {
 			@Override
@@ -53,14 +63,9 @@ public class LooseFrame extends JFrame {
 				LivePanel.howMany = 3;
 				ScoreLabel.score = 0;
 				FuelPanel.counter = 500;
-				GameFrame gameScreen = new GameFrame();
-				gameScreen.setVisible(true);
-				ExecutorService exec = Executors.newFixedThreadPool(3);
-				exec.execute(GameFrame.scoreL);
-				exec.execute(GameFrame.fuel);
-				exec.execute(GameFrame.heavenPanel);
-				exec.shutdown();
-				looseScreen.setVisible(false);
+				StartFrame.looseScreen.setVisible(false);
+				StartFrame.gameScreen.setVisible(true);
+				
 			}	
 		};
 		playAgainButton.addActionListener(playAgainListener);
@@ -75,6 +80,7 @@ public class LooseFrame extends JFrame {
 		playAgainPanel.setBackground(Color.black);
 
 		JPanel exitGamePanel = new JPanel();
+		exitGamePanel.setOpaque(false);
 		JButton exitGameButton = new JButton();
 		playAgainPanel.add(playAgainButton);
 		ActionListener exitGameListener = new ActionListener() {
@@ -95,10 +101,10 @@ public class LooseFrame extends JFrame {
 		exitGamePanel.add(exitGameButton);
 		exitGamePanel.setBackground(Color.black);
 		
-		winPanel.add(youWin);
-		winPanel.add(yourScore);
-		winPanel.add(playAgainPanel);
-		winPanel.add(exitGamePanel);
+		loosePanel.add(youLoose);
+		loosePanel.add(scorePanel);
+		loosePanel.add(playAgainPanel);
+		loosePanel.add(exitGamePanel);
 		
 		this.setJMenuBar(menuBar);
 		
@@ -106,22 +112,18 @@ public class LooseFrame extends JFrame {
 		Image logo = logoI.getImage(); 
 		this.setIconImage(logo);
 		
-		this.setSize(640, 480);
+		this.setSize(640, 520);
 		//this.setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	public LooseFrame(GraphicsConfiguration gc) {
-        super(gc);
-    }
-    public LooseFrame(String title) throws HeadlessException {
-        super(title);
-    }
-    public LooseFrame(String title, GraphicsConfiguration gc) {
-        super(title, gc);
-    }
+	public void paintComponent(Graphics g) {
+ 		Graphics2D g2d = (Graphics2D) g;
+ 		g2d.drawImage(backgroundImage.getScaledInstance(640, 520, Image.SCALE_SMOOTH), 0, 0, this);
 
-	public static void main(String[] args) {
-		looseScreen.setVisible(true);
-	}
+ 	}
+
+//	public static void main(String[] args) {
+//		LooseFrame looseScreen = new LooseFrame();
+//		looseScreen.setVisible(true);
+//	}
 }
-	
