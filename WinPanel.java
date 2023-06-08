@@ -17,7 +17,7 @@ public class WinPanel extends JPanel {
 		setLayout(new GridLayout(2,1));
 		setSize(640, 520);
 		
-		File imageFile1 = new File("przegrana.png");
+		File imageFile1 = new File("wygrana.png");
 	 	try {
 	 		backgroundImage = ImageIO.read(imageFile1);
 	 	} 
