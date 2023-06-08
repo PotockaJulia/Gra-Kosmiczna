@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -9,9 +10,6 @@ import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,7 +21,7 @@ import javax.swing.JPanel;
 
 public class WinFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-	static WinFrame winScreen = new WinFrame();
+	//static WinFrame winScreen = new WinFrame();
 	
 	public WinFrame() throws HeadlessException {
 		JMenuBar menuBar = new JMenuBar();
@@ -32,19 +30,25 @@ public class WinFrame extends JFrame {
 		optionMenu.add(saveScore);
 		menuBar.add(optionMenu);
 		
-		JPanel winPanel = new JPanel();
+		WinPanel winPanel = new WinPanel();
 		winPanel.setBackground(Color.black);
 		winPanel.setLayout(new GridLayout(4,1));
 		add(winPanel);
-		JLabel youWin = new JLabel("WYGRANA!", JLabel.CENTER);
+		JLabel youWin = new JLabel();//"WYGRANA!", JLabel.CENTER);
 		youWin.setFont(new Font("Serif", Font.PLAIN, 72));
 		youWin.setForeground(Color.white);
 		
+		JPanel scorePanel = new JPanel();
+		scorePanel.setLayout(new BorderLayout());
+		scorePanel.setOpaque(false);
 		JLabel yourScore = new JLabel("WYNIK: "+ScoreLabel.score, JLabel.CENTER);
+		yourScore.setBounds(50, 50, yourScore.getWidth(), yourScore.getHeight());
 		yourScore.setFont(new Font("Serif", Font.PLAIN, 24));
 		yourScore.setForeground(Color.white);
+		scorePanel.add(yourScore, BorderLayout.PAGE_END);
 		
 		JPanel playAgainPanel = new JPanel();
+		playAgainPanel.setOpaque(false);
 		JButton playAgainButton = new JButton();
 		ActionListener playAgainListener = new ActionListener() {
 			@Override
@@ -52,14 +56,9 @@ public class WinFrame extends JFrame {
 				LivePanel.howMany = 3;
 				ScoreLabel.score = 0;
 				FuelPanel.counter = 500;
-				GameFrame gameScreen = new GameFrame();
-				gameScreen.setVisible(true);
-				ExecutorService exec = Executors.newFixedThreadPool(3);
-				exec.execute(GameFrame.scoreL);
-				exec.execute(GameFrame.fuel);
-				exec.execute(GameFrame.heavenPanel);
-				exec.shutdown();
-				winScreen.setVisible(false);
+				StartFrame.looseScreen.setVisible(false);
+				StartFrame.gameScreen.setVisible(true);
+				
 			}	
 		};
 		playAgainButton.addActionListener(playAgainListener);
@@ -74,6 +73,7 @@ public class WinFrame extends JFrame {
 		playAgainPanel.setBackground(Color.black);
 
 		JPanel exitGamePanel = new JPanel();
+		exitGamePanel.setOpaque(false);
 		JButton exitGameButton = new JButton();
 		playAgainPanel.add(playAgainButton);
 		ActionListener exitGameListener = new ActionListener() {
@@ -95,7 +95,7 @@ public class WinFrame extends JFrame {
 		exitGamePanel.setBackground(Color.black);
 		
 		winPanel.add(youWin);
-		winPanel.add(yourScore);
+		winPanel.add(scorePanel);
 		winPanel.add(playAgainPanel);
 		winPanel.add(exitGamePanel);
 		
@@ -105,7 +105,7 @@ public class WinFrame extends JFrame {
 		Image logo = logoI.getImage(); 
 		this.setIconImage(logo);
 		
-		this.setSize(640, 480);
+		this.setSize(640, 520);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
     }
@@ -119,7 +119,8 @@ public class WinFrame extends JFrame {
         super(title, gc);
     }
 
-	public static void main(String[] args) {
-		winScreen.setVisible(true);
-	}
+//	public static void main(String[] args) {
+//		WinFrame winScreen = new WinFrame();
+//		winScreen.setVisible(true);
+//	}
 }
