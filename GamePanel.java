@@ -6,8 +6,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -21,14 +19,19 @@ public class GamePanel extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1L;
 	
 	private BufferedImage backgroundImage;
-	private BufferedImage meteoritImage, meteoritImage2;
-	int xPos1, yPos1, xPos2, yPos2, vx1, vy1, vx2, vy2;
+	private BufferedImage meteoritImage, meteoritImage2, fuelImage;
+	static int yPos1, yPos2, fyPos;
+	int xPos1, xPos2, vx1, vy1, vx2, vy2, fxPos, fvy;
 	final int xPos10 = 620;
 	int yPos10 = 2;
 	final int xPos20 = -20;
 	int yPos20 = 16;
 	static Rectangle rkom1;
 	static Rectangle rkom2;
+	static Rectangle rfuel;
+	public static int isCollision1 = 0;
+	public static int isCollision2 = 0;
+	public static int catchFuel = 0;
 	
 	boolean isWorking = true;
 	//private int lx = 260;
@@ -80,6 +83,14 @@ public class GamePanel extends JPanel implements Runnable {
 			System.err.println("Blad odczytu obrazka");
 	 		e.printStackTrace();
 	 	}
+	 	File imageFile4 = new File("paliwo.png");
+	 	try {
+			fuelImage = ImageIO.read(imageFile4);
+	 	} 
+	 	catch (IOException e) {
+			System.err.println("Blad odczytu obrazka");
+	 		e.printStackTrace();
+	 	}
 	 	
 	 	Random r = new Random();
 	 	
@@ -93,6 +104,10 @@ public class GamePanel extends JPanel implements Runnable {
 		vx2 = (5+r.nextInt(3));
 		vy2 = (5+r.nextInt(3));
 		
+		fyPos = -200;
+		fxPos =20+r.nextInt(600);
+		fvy = (3+r.nextInt(3));
+		
 		
 		JPanel gapPanel = new JPanel();
 		gapPanel.setOpaque(false);
@@ -100,30 +115,6 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		JPanel infoPanel = new JPanel();
 		infoPanel.setOpaque(false);
-		JButton stopButton = new JButton();
-		ActionListener stopListener = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				//zatrzymanie czasu i wyswietlenie panelu z opcja wznow
-				//ta sama funkcjonalnosc przy wcisnieciu przycisku esc!!!
-				gameState = pauseState;
-				pauseFrame = new JFrame();
-				pauseFrame.setSize(640,520);
-				PausePanel pausePanel = new PausePanel();
-				//stopFrame = new JFrame();
-				pauseFrame.add(pausePanel);
-				pauseFrame.setVisible(true);
-			}	
-		};
-		stopButton.addActionListener(stopListener);
-		ImageIcon stopIcon = new ImageIcon("stop.png"); // load the image to a imageIcon
-		Image imgStop = stopIcon.getImage(); // transform it 
-		Image newimgStop = imgStop.getScaledInstance(40, 40, Image.SCALE_SMOOTH); // scale it the smooth way  
-		stopIcon = new ImageIcon(newimgStop);  // transform it back  
-		stopButton.setIcon(stopIcon);
-		stopButton.setPreferredSize(new Dimension(40,40));
-		//infoButton.setOpaque(false);
-		stopButton.setBackground(Color.black);
 		
 		MusicPanel musicPanel = new MusicPanel();
 		JButton musicButton = new JButton();		
@@ -138,7 +129,6 @@ public class GamePanel extends JPanel implements Runnable {
 			}	
 		};
 		musicButton.addActionListener(musicListener);
-		
 		ImageIcon musicIcon = new ImageIcon("music.png");
 		Image imgMusic = musicIcon.getImage(); // transform it 
 		Image newimgMusic = imgMusic.getScaledInstance(40, 40, Image.SCALE_SMOOTH); // scale it the smooth way  
@@ -148,11 +138,8 @@ public class GamePanel extends JPanel implements Runnable {
 		musicButton.setBackground(Color.black);
 		
 		infoPanel.add(musicButton);
-		infoPanel.add(stopButton);
 		gapPanel.add(infoPanel, BorderLayout.LINE_END);
 		add(gapPanel, BorderLayout.PAGE_START);
-		
-		//add(infoPanel, BorderLayout.PAGE_START);
 		
 		VehicleLabel vehicleLabel = new VehicleLabel();
 		add(vehicleLabel, BorderLayout.PAGE_END);
@@ -168,11 +155,46 @@ public class GamePanel extends JPanel implements Runnable {
 
 		g2d.drawImage(meteoritImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH), xPos1, yPos1, this);
 		g2d.drawImage(meteoritImage2.getScaledInstance(50, 50, Image.SCALE_SMOOTH), xPos2, yPos2, this);
+		g2d.drawImage(fuelImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH), fxPos, fyPos, this);
 		
 		rkom1 = new Rectangle(xPos1, yPos1, 50, 50);
 		rkom2 = new Rectangle(xPos2, yPos2, 50, 50);
+		rfuel = new Rectangle(fxPos, fyPos, 40, 40);
  		
  		//checkIfIsCollision();
+ 	}
+ 	
+ 	public static void Collision() {
+ 		if(VehicleLabel.rveh.intersects(rkom1)) {
+ 			isCollision1++;
+ 			//System.out.println(isCollision);
+ 		}
+ 		else if( VehicleLabel.rveh.intersects(rkom2)) {
+ 			isCollision2++;
+ 		}
+ 		if( VehicleLabel.rveh.intersects(rfuel)) {
+ 			catchFuel++;
+ 		}
+ 		
+ 		if(isCollision1>260) {
+ 			LivePanel.howMany--;
+ 			GamePanel.yPos1 = 600; 
+ 			//System.out.println("bum");
+ 			isCollision1 = 0;
+ 		}
+ 		else if(isCollision2>260) {
+ 			LivePanel.howMany--;
+ 			GamePanel.yPos2 = 600; 
+ 			//System.out.println("bum");
+ 			isCollision2 = 0;
+ 		}
+ 		if(catchFuel>300) {
+ 			FuelPanel.counter+=50;
+ 			fyPos = 1000;
+ 			//System.out.println("mniam!");
+ 			catchFuel=0;
+ 			
+ 		}
  	}
 
 
@@ -205,13 +227,14 @@ public class GamePanel extends JPanel implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		while (isWorking) {
-			//meteoryty
+			//meteoryty i paliwo
 			Random r = new Random();
 			if(gameState == playState) {
 				xPos1+=vx1;
 				yPos1+=vy1;
 				xPos2+=vx2;
 				yPos2+=vx2;
+				fyPos+=fvy;
 				repaint();
 				
 				try {
@@ -221,7 +244,7 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 			}
 				
-			if(xPos1 <= -1100 || yPos1 >= 1600) {
+			if(xPos1 <= -2600 || yPos1 >= 2200) {
 				xPos1 = xPos10;
 				yPos1 = r.nextInt(14);
 				vx1 = -(5+r.nextInt(3));
@@ -233,7 +256,13 @@ public class GamePanel extends JPanel implements Runnable {
 				yPos2 = r.nextInt(20);
 				vx2 = (5+r.nextInt(3));
 				vy2 = (5+r.nextInt(3));
-			}	
+			}
+			else if(fyPos >= 4800) {
+				fyPos= -200;
+				fxPos =20+r.nextInt(560);
+				fvy = (3+r.nextInt(3));
+			}
 			
 		}
 	}
+}
