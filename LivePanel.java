@@ -12,13 +12,14 @@ import javax.imageio.ImageIO;
 //import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class LivePanel extends JPanel implements Runnable {
+public class LivePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
 	private BufferedImage image;
 	public static int howMany = 3;
-	public static int isCollision = 0;
+//	public int isCollision1 = 0;
+//	public int isCollision2 = 0;
 	
 	 
  	public LivePanel() {
@@ -79,35 +80,10 @@ public class LivePanel extends JPanel implements Runnable {
  		Graphics2D g2d = (Graphics2D) g;
  		g2d.drawImage(image, 0, 0, this);
  		
- 		if(VehicleLabel.rveh.intersects(GamePanel.rkom1) || VehicleLabel.rveh.intersects(GamePanel.rkom2)) {
- 			isCollision++;
- 			//System.out.println(isCollision);
- 		}
- 		
- 		if(isCollision>460) {
- 			howMany--;
- 			//System.out.println("bum");
- 			isCollision = 0;
- 		}
- 		
  		howManyLives();
- 		StartFrame.ifYouAlive();
- 		//GamePanel.checkIfIsCollision();
+ 		StartFrame.ifGameOn();
  		repaint();	
  	}
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		while(true) {
-
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}	
-	}
 
 
 }
