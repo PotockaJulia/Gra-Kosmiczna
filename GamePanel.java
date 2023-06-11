@@ -142,8 +142,8 @@ public class GamePanel extends JPanel implements Runnable {
 	 	Random r = new Random();
 	 	
 	 	
-	 	xPos1 = xPos10;
-	 	yPos1 = yPos10;
+	 	xPos1 = xPos10+100;
+	 	yPos1 = yPos10-40;
 		xPos2 = xPos20;
 		yPos2 = yPos20;
 		vx1 = -(5+r.nextInt(3));
@@ -194,7 +194,7 @@ public class GamePanel extends JPanel implements Runnable {
 		else if (ScoreLabel.score >= 628 && ScoreLabel.score <= 1100)
 			g2d.drawImage(JowiszImage.getScaledInstance(180, 180, Image.SCALE_SMOOTH), JxPos, JyPos, this);
 		else if (ScoreLabel.score >= 1276 && ScoreLabel.score <= 1800)
-			g2d.drawImage(SaturnImage.getScaledInstance(200, 80, Image.SCALE_SMOOTH), SxPos, SyPos, this);
+			g2d.drawImage(SaturnImage.getScaledInstance(200, 120, Image.SCALE_SMOOTH), SxPos, SyPos, this);
 		else if (ScoreLabel.score >= 2718 && ScoreLabel.score <= 3200)
 			g2d.drawImage(UranImage.getScaledInstance(120, 120, Image.SCALE_SMOOTH), UxPos, NyPos, this);
 		else if (ScoreLabel.score >= 4344 && ScoreLabel.score <= 4800)
@@ -206,7 +206,7 @@ public class GamePanel extends JPanel implements Runnable {
 		rfuel = new Rectangle(fxPos, fyPos, 40, 40);
 		rMars = new Rectangle(MxPos, MyPos, 100, 100);
 		rJowisz = new Rectangle(JxPos, JyPos, 180, 180);
-		rSaturn = new Rectangle(SxPos, SyPos, 200, 80);
+		rSaturn = new Rectangle(SxPos, SyPos, 200, 120);
 		rUran = new Rectangle(UxPos, UyPos, 120, 120);
 		rNeptun = new Rectangle(NxPos, NyPos, 120, 120);
  		
@@ -253,7 +253,7 @@ public class GamePanel extends JPanel implements Runnable {
  			isCollision2 = 0;
  		}
  		if(catchFuel>10) {
- 			FuelPanel.counter+=50;
+ 			FuelPanel.counter+=30;
  			fyPos = 1000;
  			catchFuel=0;
  		}
@@ -310,9 +310,9 @@ public class GamePanel extends JPanel implements Runnable {
 		while (isWorking) {
 			//meteoryty i paliwo
 			int v = 5;
-			if(ScoreLabel.score > 1200) v=3;
-			else if(ScoreLabel.score > 2800) v=5;
-			else if(ScoreLabel.score > 4000) v=8;
+			if(ScoreLabel.score > 1200) v=7;
+			else if(ScoreLabel.score > 2800) v=9;
+			else if(ScoreLabel.score > 4000) v=12;
 			
 			Random r = new Random();
 			if(gameState == playState) {
@@ -351,7 +351,7 @@ public class GamePanel extends JPanel implements Runnable {
 			else if(fyPos >= 2800) {
 				fyPos= -200;
 				fxPos =20+r.nextInt(560);
-				fvy = (2+r.nextInt(2));
+				fvy = (2+r.nextInt(4));
 			}
 		}
 	}
