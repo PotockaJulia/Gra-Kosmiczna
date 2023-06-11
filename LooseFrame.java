@@ -32,6 +32,15 @@ public class LooseFrame extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu optionMenu = new JMenu("Opcje");
 		JMenuItem saveScore = new JMenuItem("Zapisz wynik");
+		ActionListener nickListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				saveScreen = new saveScore();
+				saveScreen.setVisible(true);
+	
+			}	
+		};
+		saveScore.addActionListener(nickListener);
 		optionMenu.add(saveScore);
 		menuBar.add(optionMenu);
 		
