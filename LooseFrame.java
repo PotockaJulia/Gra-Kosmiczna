@@ -27,6 +27,7 @@ public class LooseFrame extends JFrame {
 	private BufferedImage backgroundImage;
 	JPanel loosePanel;
 	//static LooseFrame looseScreen = new LooseFrame();
+	static saveScore saveScreen;
 	
 	public LooseFrame() throws HeadlessException {
 		JMenuBar menuBar = new JMenuBar();
