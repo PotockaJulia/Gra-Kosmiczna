@@ -22,11 +22,21 @@ import javax.swing.JPanel;
 public class WinFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	//static WinFrame winScreen = new WinFrame();
+	static saveScore saveScreen;
 	
 	public WinFrame() throws HeadlessException {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu optionMenu = new JMenu("Opcje");
 		JMenuItem saveScore = new JMenuItem("Zapisz wynik");
+		ActionListener nickListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				saveScreen = new saveScore();
+				saveScreen.setVisible(true);
+	
+			}	
+		};
+		saveScore.addActionListener(nickListener);
 		optionMenu.add(saveScore);
 		menuBar.add(optionMenu);
 		
