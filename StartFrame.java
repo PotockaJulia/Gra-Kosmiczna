@@ -227,16 +227,19 @@ public class StartFrame extends JFrame {
  			gameScreen.setVisible(false);
  			looseScreen = new LooseFrame();
  			looseScreen.setVisible(true);
+			GamePanel.gameState = GamePanel.pauseState;
  		}
  		if (FuelPanel.counter == 0) {
  			gameScreen.setVisible(false);
  			looseScreen = new LooseFrame();
  			looseScreen.setVisible(true);
+			GamePanel.gameState = GamePanel.pauseState;
  		}
- 		if (ScoreLabel.score >= 4344) {
+ 		if (ScoreLabel.score >= 4400) {
  			gameScreen.setVisible(false);
  			winScreen = new WinFrame();
  			winScreen.setVisible(true);
+			GamePanel.gameState = GamePanel.pauseState;
  		}
  	}
 	
