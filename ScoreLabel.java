@@ -26,9 +26,9 @@ public class ScoreLabel extends JLabel implements Runnable {
 					setText(value);
 					if(GamePanel.gameState == GamePanel.playState) {
 						score++;
-						if(i>=628) t=70;//100s to trwa, od Jowisza
+						if(i>=628) t=60;//100s to trwa, od Jowisza
 						else if(i>=2718) t=30;//to 60s, od Uranu
-						else t=140;//trwa 100s, do Jowisza
+						else t=110;//trwa 100s, do Jowisza
 						
 						try {
 							Thread.sleep(t);
@@ -36,7 +36,7 @@ public class ScoreLabel extends JLabel implements Runnable {
 							e.printStackTrace();
 						}
 					}
-					if (i==4344) isWorkingL = false;
+					if (i==4400) isWorkingL = false;
 				}
 			}
 		//}
