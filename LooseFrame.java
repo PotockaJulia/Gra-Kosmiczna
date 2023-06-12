@@ -73,6 +73,7 @@ public class LooseFrame extends JFrame {
 				LivePanel.howMany = 3;
 				ScoreLabel.score = 0;
 				FuelPanel.counter = 500;
+				GamePanel.gameState = GamePanel.playState;
 				StartFrame.looseScreen.setVisible(false);
 				StartFrame.gameScreen.setVisible(true);
 				
