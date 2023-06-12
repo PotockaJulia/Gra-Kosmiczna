@@ -142,8 +142,8 @@ public class GamePanel extends JPanel implements Runnable {
 	 	Random r = new Random();
 	 	
 	 	
-	 	xPos1 = xPos10+100;
-	 	yPos1 = yPos10-40;
+	 	xPos1 = xPos10+240;
+	 	yPos1 = yPos10-240;
 		xPos2 = xPos20;
 		yPos2 = yPos20;
 		vx1 = -(5+r.nextInt(3));
@@ -161,16 +161,16 @@ public class GamePanel extends JPanel implements Runnable {
 		Mvy = (3+r.nextInt(3));
 		JyPos = 550;
 		JxPos = r.nextInt(460);
-		Jvy = (4+r.nextInt(3));
+		Jvy = (4+r.nextInt(4));
 		SyPos = 550;
 		SxPos = r.nextInt(460);
-		Svy = (4+r.nextInt(3));
+		Svy = (4+r.nextInt(5));
 		UyPos = 550;
 		UxPos = r.nextInt(500);
-		Uvy = (4+r.nextInt(3));
+		Uvy = (4+r.nextInt(6));
 		NyPos = 550;
 		NxPos = r.nextInt(500);
-		Nvy = (4+r.nextInt(3));
+		Nvy = (4+r.nextInt(7));
 		
 		VehicleLabel vehicleLabel = new VehicleLabel();
 		add(vehicleLabel, BorderLayout.PAGE_END);
@@ -240,24 +240,24 @@ public class GamePanel extends JPanel implements Runnable {
  		else if( VehicleLabel.rveh.intersects(rNeptun)) planetCollision++;
  
  		
- 		if(isCollision1>15) {
+ 		if(isCollision1>5) {
  			LivePanel.howMany--;
  			yPos1 = 600; 
  			//System.out.println("bum");
  			isCollision1 = 0;
  		}
- 		else if(isCollision2>15) {
+ 		else if(isCollision2>5) {
  			LivePanel.howMany--;
  			yPos2 = 600; 
  			//System.out.println("bum");
  			isCollision2 = 0;
  		}
- 		if(catchFuel>10) {
+ 		if(catchFuel>5) {
  			FuelPanel.counter+=30;
  			fyPos = 1000;
  			catchFuel=0;
  		}
- 		if(planetCollision>8) {
+ 		if(planetCollision>3) {
  			LivePanel.howMany--;
  			MyPos = 600;
  			JyPos = 600;
@@ -294,8 +294,6 @@ public class GamePanel extends JPanel implements Runnable {
 				repaint();
 			}
 			if(key == KeyEvent.VK_M) {
-//				JFrame musicFrame = new JFrame();
-//				musicPanel = new MusicPanel();
 				musicFrame.add(musicPanel);
 				musicFrame.setBackground(Color.black);
 				musicFrame.setSize(400, 250);
@@ -335,14 +333,14 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 			}
 				
-			if(xPos1 <= -3600 || yPos1 >= 3200) {
+			if(xPos1 <= -1600 || yPos1 >= 1200) {
 				xPos1 = xPos10;
 				yPos1 = r.nextInt(14);
 				vx1 = -(v+r.nextInt(3));
 				vy1 = (v+r.nextInt(3));
 				
 			}
-			else if(xPos2 >= 4200 || yPos2 >= 3800) {
+			else if(xPos2 >= 1600 || yPos2 >= 1200) {
 				xPos2 = xPos20;
 				yPos2 = r.nextInt(10);
 				vx2 = (v+r.nextInt(3));
